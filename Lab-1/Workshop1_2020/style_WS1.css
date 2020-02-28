@@ -1,0 +1,162 @@
+#logo{
+    background-repeat: no-repeat;
+    background-size: 90% 90%;
+    background-image: url("hku-cs-logo.png");
+    height: 150px;
+    background-size: contain;
+    background-position: center;
+    margin-top: 20px;
+}  
+
+ul {
+    padding-left: 0px;
+    margin-left: 30px;
+}
+
+li{
+    display: inline-block;
+    list-style-type: none;
+    background-color: orange;
+    margin-right: 30px;
+    padding: 10px;
+    font-size: 20px;
+}
+
+li a{
+    text-decoration: none;
+}
+
+a[target = "_blank"] {
+    background-color: darkorange;
+}
+
+a[target = "_blank"]:hover {
+    transition: background-color;
+    transition-delay: 1s;
+    background-color: orange;
+    transition-timing-function: ease-in;
+}
+	
+.searchInput {
+    width: 380px;
+    height: 30px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: red;
+    font-size: 20px;
+}
+
+.searchButton {
+    width: 180px;
+    height: 30px;
+    background-color: lightgray;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 16px;
+    color: black;
+    border-width: 0px;
+    text-shadow: 2px 2px 4px black;
+    background-image: linear-gradient(-45deg, deepskyblue, lightcoral, gold, mediumaquamarine);
+}
+
+#footer{
+    background-color: lightsalmon;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    padding: 1rem;
+}
+
+#searchArea {
+
+}
+
+.col-1 {
+    width: 200px;
+    font-size: x-large;
+    background-color: lightgray;
+    height: 50px;
+    margin: 2px;
+    padding-top: 10px;
+    padding-left: 10px;
+    float: left;
+    overflow: auto;
+}
+
+.col-2{
+    width: 400px;
+    background-color: lightgray;
+    height: 50px;
+    margin: 2px;
+    padding-top: 10px;
+    padding-left: 10px;
+    float: left;
+    overflow: auto;
+}
+
+.col-2:hover{
+    background-color: whitesmoke;
+}
+
+
+@media screen and (max-width: 1080px) {
+    #navi {
+        font-size: 18px;
+        margin-right: 2px;
+    }
+
+    #navi li {
+        margin-left: 2px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+    
+    #footer h3 {
+        font-size: medium;
+        margin-top: 1px;
+    }
+    
+    #footer p {
+        font-size: small;
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+
+    .col-2 {
+        clear: left;
+    }
+}
+
+@media screen and (max-width: 580px) {  
+    li {
+        margin-right: 0;
+        font-size: 15px;
+    }
+
+    ul {
+        margin-left: 1px;
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+
+    #footer h3 {
+        font-size: small;
+        margin-top: 0px;
+    }
+
+    #footer p {
+        font-size: x-small;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .col-2 {
+        clear: left;
+    }
+
+	.col-1{
+        font-size: large;
+        clear: left;
+    }
+}
