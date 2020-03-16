@@ -16,7 +16,7 @@
 		</div>
 		
 		<input id="major" type="text"> 
-		<div class="buttons">
+		<div id = "majBtn" class="buttons">
 			<p>Filter by Major</p>
 		</div>
 		
@@ -41,6 +41,14 @@
     </div>
     
     <script>
+		window.onload = function() {
+			showAll();
+		}
+
+		var btn_all = document.getElementById("button_all");
+		btn_all.addEventListener('click', showAll);
+		document.getElementById("majBtn").addEventListener('click', filterM);
+
 		// Task 2.2 - to be implemented
 		function addstudent() {
 		
@@ -86,7 +94,32 @@
 
         // Task 2.2 - to be implemented
         function filterM() {
-			
+			var xmlhttp;
+			if (window.XMLHttpRequest) {
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+          
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var mesgs = document.getElementById("entries");
+					mesgs.innerHTML = xmlhttp.responseText;
+				}
+			}
+			xmlhttp.open("POST", "queryEntries_WS2.php", true);
+			xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xmlhttp.send("show=major&bymajor="+document.getElementById("major").value);
+
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var mesgs = document.getElementById("entries");
+					mesgs.innerHTML = xmlhttp.responseText;
+					document.getElementById("major").value = "";
+				}
+			}
+			btn_all.style.display = "block";
+			document.getElementById("cBtn").addEventListener('click', filterC);
         }
 
         // Task 2.2 - to be implemented
