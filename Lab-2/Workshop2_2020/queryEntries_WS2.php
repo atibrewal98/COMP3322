@@ -18,14 +18,32 @@
 		$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
         while($row = mysqli_fetch_array($result)) {
 		    print "<div id=".$row['id'].">";
-		    print "<span>"."</span>";
+			print "<span>".$row['attendOrNot']."</h3>";
+			print "<h3>".$row['studentname']." (".$row['major'].")</h3>";
+			print "<h5>(".$row['course'].") on ".$row['coursedate']."</h5>";
 		    print "</div>";
 	    }
     
 	} elseif ($_POST['show'] == 'major') {
-		// add code here
+		$query = 'select * from attendancelist Where major = \''.$_POST['bymajor'].'\'';
+		$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+        while($row = mysqli_fetch_array($result)) {
+		    print "<div id=".$row['id'].">";
+			print "<span>".$row['attendOrNot']."</h3>";
+			print "<h3>".$row['studentname']." (".$row['major'].")</h3>";
+			print "<h5>(".$row['course'].") on ".$row['coursedate']."</h5>";
+		    print "</div>";
+	    }
 	} elseif ($_POST['show'] == 'course') {
-		// add code here
+		$query = 'select * from attendancelist Where course = \''.$_POST['bycourse'].'\'';
+		$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+        while($row = mysqli_fetch_array($result)) {
+		    print "<div id=".$row['id'].">";
+			print "<span>".$row['attendOrNot']."</h3>";
+			print "<h3>".$row['studentname']." (".$row['major'].")</h3>";
+			print "<h5>(".$row['course'].") on ".$row['coursedate']."</h5>";
+			print "</div>";
+		}
 	}
 	mysqli_free_result($result);
 	mysqli_close($conn);		

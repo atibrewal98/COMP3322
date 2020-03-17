@@ -21,7 +21,7 @@
 		</div>
 		
 		<input id="course" type="text"> 
-		<div class="buttons">
+		<div id = "cBtn" class="buttons">
 			<p>Filter by Course</p>
 		</div>
 		
@@ -33,7 +33,7 @@
 		<input id="newcoursedate" type="text" placeholder="Enter student course date" size="40"> <br>
 		<input id="newattendance" type="text" placeholder="Enter student attendance" size="40"> <br>
 		
-		<div class="buttons">
+		<div id = "sBtn" class="buttons">
 			<p> Add a student </p>
 		</div>
 		
@@ -48,10 +48,50 @@
 		var btn_all = document.getElementById("button_all");
 		btn_all.addEventListener('click', showAll);
 		document.getElementById("majBtn").addEventListener('click', filterM);
+		document.getElementById("cBtn").addEventListener('click', filterC);
+		document.getElementById("sBtn").addEventListener('click', addstudent);
 
 		// Task 2.2 - to be implemented
-		function addstudent() {
-		
+		function addstudent(){
+			let sname = document.getElementById("newname");
+			if (sname.validity.valueMissing) {
+				alert("Missing student name!!");
+				sname.focus();
+				return;
+			}
+			let smajor = document.getElementById("newmajor");
+			if (smajor.validity.valueMissing) {
+				alert("Missing student major!!");
+				smajor.focus();
+				return;
+			}
+			let scourse = document.getElementById("newcourse");
+			if (scourse.validity.valueMissing) {
+				alert("Missing student course!!");
+				scourse.focus();
+				return;
+			}
+			let sdate = document.getElementById("newcoursedate");
+			if (sdate.validity.valueMissing) {
+				alert("Missing student coursedate!!");
+				sdate.focus();
+				return;
+			}
+			let satte = document.getElementById("newattendance");
+			if (satte.validity.valueMissing) {
+				alert("Missing student attendance!!");
+				satte.focus();
+				return;
+			}
+
+			var xmlhttp;
+			if (window.XMLHttpRequest) {
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+
+			console.log(satte.validity);
 		}
 		
 		// Task 4.1 - to be implemented
@@ -119,15 +159,36 @@
 				}
 			}
 			btn_all.style.display = "block";
-			document.getElementById("cBtn").addEventListener('click', filterC);
         }
 
         // Task 2.2 - to be implemented
         function filterC() {
-    
+			var xmlhttp;
+			if (window.XMLHttpRequest) {
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+          
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var mesgs = document.getElementById("entries");
+					mesgs.innerHTML = xmlhttp.responseText;
+				}
+			}
+			xmlhttp.open("POST", "queryEntries_WS2.php", true);
+			xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xmlhttp.send("show=course&bycourse="+document.getElementById("course").value);
+
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var mesgs = document.getElementById("entries");
+					mesgs.innerHTML = xmlhttp.responseText;
+					document.getElementById("course").value = "";
+				}
+			}
+			btn_all.style.display = "block";
 		}
-    
-    
     </script>
 
   </body>
