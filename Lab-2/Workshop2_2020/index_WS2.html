@@ -99,7 +99,7 @@
 				satte.focus();
 				return;
 			} else if (satte.value != 'PRESENT' && satte.value != 'ABSENT'){
-				alert("Incorrect student attendance!!");
+				alert("Check your input date format (YYYY-MM-DD), Attendance record (PRESENT/ABSENT) and whether all fields are filled.");
 				satte.focus();
 				return;
 			}
@@ -132,11 +132,12 @@
 					document.getElementById("newattendance").value = "";
 				}
 			}
-			// showAll();
 		}
 		
 		// Task 4.1 - to be implemented
 		function changeState(elem) {
+			console.log("Here");
+
 			var oldValue = elem.innerHTML;
 			var newvalue;
 			var itemID = elem.parentNode.getAttribute('id');
@@ -148,7 +149,28 @@
 			}
 			
 			var xmlhttp;
+			if (window.XMLHttpRequest) {
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var mesgs = document.getElementById("entries");
+					mesgs.innerHTML = xmlhttp.responseText;
+				}
+			}
+			xmlhttp.open("GET", "updateState_WS2.php?id="+itemID+"&value="+newvalue, true);
+			xmlhttp.send();
 			
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var mesgs = document.getElementById("entries");
+					mesgs.innerHTML = xmlhttp.responseText;
+				}
+			}
+			console.log("Here1");
 		}
 
         // Task 2.1

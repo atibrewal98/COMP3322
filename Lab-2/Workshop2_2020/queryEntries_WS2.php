@@ -6,14 +6,15 @@
 	$conn = mysqli_connect('sophia.cs.hku.hk', 'tibrewal', 'KLIipPTB', 'tibrewal') or die ('Error! '.mysqli_connect_error($conn));
 
 	if($_POST['show'] =='add') {
-		$query = 'Insert Into attendancelist Values(\''.$_POST['name'].'\', \''.$_POST['major'].'\', \''.$_POST['course'].'\', \''.$_POST['cdate'].'\', \''.$_POST['attd'].'\')';
+		$query = 'Insert Into attendancelist (studentname, major, course, coursedate, attendOrNot) Values(\''.$_POST['name'].'\', \''.$_POST['major'].'\', \''.$_POST['course'].'\', \''.$_POST['cdate'].'\', \''.$_POST['attd'].'\')';
 		$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+
 		$query = 'select * from attendancelist';
 		$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
-		// add code here
+
 		while($row = mysqli_fetch_array($result)) {
 		    print "<div id=".$row['id'].">";
-			print "<span>".$row['attendOrNot']."</h3>";
+			print "<span onclick = \"changeState(this)\">".$row['attendOrNot']."</span>";
 			print "<h3>".$row['studentname']." (".$row['major'].")</h3>";
 			print "<h5>(".$row['course'].") on ".$row['coursedate']."</h5>";
 		    print "</div>";
@@ -23,7 +24,7 @@
 		$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
         while($row = mysqli_fetch_array($result)) {
 		    print "<div id=".$row['id'].">";
-			print "<span>".$row['attendOrNot']."</h3>";
+			print "<span onclick = \"changeState(this)\">".$row['attendOrNot']."</span>";
 			print "<h3>".$row['studentname']." (".$row['major'].")</h3>";
 			print "<h5>(".$row['course'].") on ".$row['coursedate']."</h5>";
 		    print "</div>";
@@ -33,7 +34,7 @@
 		$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
         while($row = mysqli_fetch_array($result)) {
 		    print "<div id=".$row['id'].">";
-			print "<span>".$row['attendOrNot']."</h3>";
+			print "<span onclick = \"changeState(this)\">".$row['attendOrNot']."</span>";
 			print "<h3>".$row['studentname']." (".$row['major'].")</h3>";
 			print "<h5>(".$row['course'].") on ".$row['coursedate']."</h5>";
 		    print "</div>";
@@ -43,22 +44,12 @@
 		$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
         while($row = mysqli_fetch_array($result)) {
 		    print "<div id=".$row['id'].">";
-			print "<span>".$row['attendOrNot']."</h3>";
+			print "<span onclick = \"changeState(this)\">".$row['attendOrNot']."</span>";
 			print "<h3>".$row['studentname']." (".$row['major'].")</h3>";
 			print "<h5>(".$row['course'].") on ".$row['coursedate']."</h5>";
 			print "</div>";
 		}
-	} elseif ($_POST['show'] == 'add') {
-		$name = $_POST['name']
-		$major = $_POST['major']
-		$course = $_POST['course']
-		$date = $_POST['cdate']
-		$attd = $_POST['attd']
-		$query = 'Insert Into attendancelist Values(\''.$_POST['name'].'\', \''.$_POST['major'].'\', \''.$_POST['course'].'\', \''.$_POST['cdate'].'\', \''.$_POST['attd'].'\')';
-		$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
-	}
+	} 
 	mysqli_free_result($result);
 	mysqli_close($conn);		
-	
-
 ?>
