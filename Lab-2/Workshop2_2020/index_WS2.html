@@ -54,32 +54,52 @@
 		// Task 2.2 - to be implemented
 		function addstudent(){
 			let sname = document.getElementById("newname");
-			if (sname.validity.valueMissing) {
+			if (sname.validity.valueMissing || sname.value.trim() == '') {
 				alert("Missing student name!!");
 				sname.focus();
 				return;
 			}
+
 			let smajor = document.getElementById("newmajor");
-			if (smajor.validity.valueMissing) {
+			if (smajor.validity.valueMissing || smajor.value.trim() == '') {
 				alert("Missing student major!!");
 				smajor.focus();
 				return;
 			}
+
 			let scourse = document.getElementById("newcourse");
-			if (scourse.validity.valueMissing) {
+			if (scourse.validity.valueMissing || scourse.value.trim() == '') {
 				alert("Missing student course!!");
 				scourse.focus();
 				return;
 			}
+
 			let sdate = document.getElementById("newcoursedate");
-			if (sdate.validity.valueMissing) {
+			var dc = sdate.value;
+			if (sdate.validity.valueMissing || sdate.value.trim() == '') {
 				alert("Missing student coursedate!!");
 				sdate.focus();
 				return;
+			} else {
+				var dc = sdate.value.split('-');
+				if(dc.length != 3){
+					alert("Check your input date format (YYYY-MM-DD), Attendance record (PRESENT/ABSENT) and whether all fields are filled.");
+					sdate.focus();
+					return;
+				} else if(dc[0].length != 4 || dc[1].length != 2 || dc[2].length != 2){
+					alert("Check your input date format (YYYY-MM-DD), Attendance record (PRESENT/ABSENT) and whether all fields are filled.");
+					sdate.focus();
+					return;
+				}
 			}
+
 			let satte = document.getElementById("newattendance");
-			if (satte.validity.valueMissing) {
+			if (satte.validity.valueMissing || satte.value.trim() == '') {
 				alert("Missing student attendance!!");
+				satte.focus();
+				return;
+			} else if (satte.value != 'PRESENT' && satte.value != 'ABSENT'){
+				alert("Incorrect student attendance!!");
 				satte.focus();
 				return;
 			}
@@ -91,7 +111,28 @@
 				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 			}
 
-			console.log(satte.validity);
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var mesgs = document.getElementById("entries");
+					mesgs.innerHTML = xmlhttp.responseText;
+				}
+			}
+			xmlhttp.open("POST", "queryEntries_WS2.php", true);
+			xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xmlhttp.send("show=add&name="+sname.value+"&major="+smajor.value+"&course="+scourse.value+"&cdate="+sdate.value+"&attd="+satte.value);
+
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					var mesgs = document.getElementById("entries");
+					mesgs.innerHTML = xmlhttp.responseText;
+					document.getElementById("newname").value = "";
+					document.getElementById("newmajor").value = "";
+					document.getElementById("newcourse").value = "";
+					document.getElementById("newcoursedate").value = "";
+					document.getElementById("newattendance").value = "";
+				}
+			}
+			// showAll();
 		}
 		
 		// Task 4.1 - to be implemented
