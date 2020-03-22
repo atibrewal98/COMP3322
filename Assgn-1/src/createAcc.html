@@ -8,7 +8,7 @@
     <body>
         <div class = "whitebox">
             <h1 class = "heading">ANKIT'S BOOKSTORE - CREATE ACCOUNT</h1>
-            <form>
+            <form action = "create.php" method="POST">
                 <input type = "text" id = "lname" class = "inp1" placeholder = "Desired Username"> <br>
                 <input type = "password" id = "lpwd" class = "inp1" placeholder = "Desired Password"> <br>
                 <input type = "submit" id = "lsub" class = "btn" value = "CONFIRM">
@@ -17,11 +17,12 @@
         </div>
 
 
-        <script>
+        <script type = "text/javascript">
             document.getElementById("lsub").addEventListener('click', submitLogin);
             document.getElementById("lcr").onclick = function () {
                 window.location.href = "index.html";
             }
+
             function submitLogin(){
                 let sname = document.getElementById("lname");
                 if (sname.validity.valueMissing || sname.value.trim() == '') {
