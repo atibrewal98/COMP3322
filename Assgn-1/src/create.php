@@ -8,9 +8,19 @@
 
 	$conn = mysqli_connect('sophia.cs.hku.hk', 'tibrewal', 'KLIipPTB', 'tibrewal') or die ('Error! '.mysqli_connect_error($conn));
 
-	$query = 'Update attendancelist SET attendOrNot = \''.$_GET['value'].'\' WHERE id = '.$_GET['id'];
+	$query = 'Select * From login Where UserId = \''.$_POST['username'].'\'';
 	$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
 
+	if(mysqli_num_rows($result) > 0){
+		$_SESSION["error"] = "Account already existed"
+		header("location: errorDisplay.php");
+	} else {
+		$query = 'Insert Into login Values (\''.$_POST['username'].'\', \''.$_POST['password'].'\')'
+		$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+		$_SESSION["error"] = "Account created! Welcome"
+		header("location: errorDisplay.php")
+	}
+	
 	mysqli_free_result($result);
 	mysqli_close($conn);		
 ?>
