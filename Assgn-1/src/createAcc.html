@@ -7,22 +7,21 @@
 
     <body>
         <div class = "whitebox">
-            <h1 class = "heading">ANKIT'S BOOKSTORE - LOGIN</h1>
+            <h1 class = "heading">ANKIT'S BOOKSTORE - CREATE ACCOUNT</h1>
             <form>
-                <input type = "text" id = "lname" class = "inp1" placeholder = "Username"> <br>
-                <input type = "password" id = "lpwd" class = "inp1" placeholder = "Password"> <br>
-                <input type = "submit" id = "lsub" class = "btn" value = "SUBMIT">
-                <input type = "button" id = "lcr" class = "btn" value = "CREATE">
+                <input type = "text" id = "lname" class = "inp1" placeholder = "Desired Username"> <br>
+                <input type = "password" id = "lpwd" class = "inp1" placeholder = "Desired Password"> <br>
+                <input type = "submit" id = "lsub" class = "btn" value = "CONFIRM">
+                <input type = "button" id = "lcr" class = "btn" value = "BACK">
             </form>
         </div>
 
 
-        <script type = "text/javascript">
+        <script>
             document.getElementById("lsub").addEventListener('click', submitLogin);
             document.getElementById("lcr").onclick = function () {
-                window.location.href = "createAcc.html";
+                window.location.href = "index.html";
             }
-
             function submitLogin(){
                 let sname = document.getElementById("lname");
                 if (sname.validity.valueMissing || sname.value.trim() == '') {
