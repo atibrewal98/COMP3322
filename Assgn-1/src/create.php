@@ -5,22 +5,39 @@
 	header('Access-Control-Max-Age: 1728000');
 
 	session_start();
+	$username = "";
+	$errors = array();
 
 	$conn = mysqli_connect('sophia.cs.hku.hk', 'tibrewal', 'KLIipPTB', 'tibrewal') or die ('Error! '.mysqli_connect_error($conn));
 
-	$query = 'Select * From login Where UserId = \''.$_POST['username'].'\'';
-	$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+	if (isset($_POST['register'])) {
 
-	if(mysqli_num_rows($result) > 0){
-		$_SESSION["error"] = "Account already existed"
-		header("location: errorDisplay.php");
-	} else {
-		$query = 'Insert Into login Values (\''.$_POST['username'].'\', \''.$_POST['password'].'\')'
-		$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
-		$_SESSION["error"] = "Account created! Welcome"
-		header("location: errorDisplay.php")
-	}
-	
-	mysqli_free_result($result);
-	mysqli_close($conn);		
+		$username = mysqli_real_escape_string($conn, $_POST['username']);
+		$password = mysqli_real_escape_string($conn, $_POST['password']);
+
+		if (empty($username)) {
+			array_push($errors, "Please do not leave the fields empty");
+		} else if (empty($password)){
+			array_push($errors, "Please do not leave the fields empty");
+		} else {
+
+			$query = 'Select * From login Where UserId = \''.$_POST['username'].'\'';
+			$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+
+			if(mysqli_num_rows($result) > 0){
+				mysqli_free_result($result);
+				array_push($errors, "Account already existed");
+			}
+		}
+
+		if(count($errors) == 0) {
+			$query = 'Insert Into login (UserId, Pwd) Values (\''.$_POST['username'].'\', \''.$_POST['password'].'\')';
+			$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+
+			mysqli_free_result($result);
+			mysqli_close($conn);
+
+			array_push($errors, "Account created! Welcome");
+		}
+	}	
 ?>

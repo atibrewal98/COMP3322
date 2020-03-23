@@ -26,6 +26,12 @@ body{
     font-size: large;
 }
 
+.hg{
+    text-align: center;
+    font-size: large;
+    color: red;
+}
+
 .whitebox{
     background-color: white;
     padding: 10px;
