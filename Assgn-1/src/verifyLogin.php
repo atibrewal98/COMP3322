@@ -3,23 +3,40 @@
 	header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
 	header('Access-Control-Allow-Headers: token, Content-Type');
 	header('Access-Control-Max-Age: 1728000');
+
+	session_start();
+	
+	$username = "";
+	$errors = array();
+	$same = array();
+	$confirm = array();
+	$pass = array();
+
 	$conn = mysqli_connect('sophia.cs.hku.hk', 'tibrewal', 'KLIipPTB', 'tibrewal') or die ('Error! '.mysqli_connect_error($conn));
 
-	// Implement the code here.
-	$query = 'Update attendancelist SET attendOrNot = \''.$_GET['value'].'\' WHERE id = '.$_GET['id'];
-	$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+	if (isset($_POST['login'])) {
 
-	$query = 'select * from attendancelist';
-	$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+		$username = mysqli_real_escape_string($conn, $_POST['username']);
+		$password = mysqli_real_escape_string($conn, $_POST['password']);
 
-	while($row = mysqli_fetch_array($result)) {
-		print "<div id=".$row['id'].">";
-		print "<span onclick = \"changeState(this)\">".$row['attendOrNot']."</span>";
-		print "<h3>".$row['studentname']." (".$row['major'].")</h3>";
-		print "<h5>(".$row['course'].") on ".$row['coursedate']."</h5>";
-		print "</div>";
+		if (empty($username)) {
+			array_push($errors, "Please do not leave the fields empty");
+		} else if (empty($password)){
+			array_push($errors, "Please do not leave the fields empty");
+		} else {
+			$query = "Select * From login Where UserId = '$username' And Pwd = '$password'";
+			$result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+
+			if(mysqli_num_rows($result) == 1){
+				$_SESSION['username'] = $username;
+				mysqli_free_result($result);
+				array_push($pass, "Account already existed");
+			} else {
+				mysqli_free_result($result);
+				array_push($confirm, "Invalid login, please login again.");
+			}
+		}
 	}
-	
-	mysqli_free_result($result);
+
 	mysqli_close($conn);
 ?>
