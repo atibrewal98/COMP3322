@@ -95,14 +95,13 @@ hr{
 
 .left{
     width: 20%;
-    border-right: 1.75px solid black;
-    border-radius: 1px;
 }
 
 .right{
     width: 75%;
-    border-left: 1.75px solid black;
-    border-radius: 1px;
+    border-left: 3.5px solid black;
+    border-radius: 2px;
+    min-height: auto;
 }
 
 .row::after{
@@ -135,7 +134,6 @@ ul#cList li{
     flex-basis: 300px;
     margin: auto;
     text-align: center;
-    /* margin-bottom: 10px; */
 }
 
 .price {
@@ -163,10 +161,6 @@ ul#cList li{
 @media screen and (max-width: 600px) {
     .column {
       width: 100%;
-    }
-
-    .left{
-        border: 0px;
     }
 
     .right{

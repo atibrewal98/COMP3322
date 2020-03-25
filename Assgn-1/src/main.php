@@ -42,7 +42,9 @@
 
                     <input type = "button" class = "btn1 aRight" id = "sLow" value = "Sort by Price (Lowest)">
                 </div>
+
                 <br>
+                
                 <div id = "entries" class = "mt20">
                     <div class="card">
                         <img src="Assets/images/book_1.jpeg" alt="Denim Jeans" style="width:100%">
