@@ -1,98 +1,83 @@
-<html>
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Book Store</title>
-        <link rel= "stylesheet" type= "text/css"  href= "Assets/styles.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    </head>
-    <body>
-        <div class = "center">
-            <input type = "text" class = "searchbox" id = "sbar" placeholder = "Keyword(s)">
-            <input type = "button" class = "btn1" id = "sbtn" value = "Search">
-        </div>
+<?php
+	header('Access-Control-Allow-Origin: *');
+	header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
+	header('Access-Control-Allow-Headers: token, Content-Type');
+	header('Access-Control-Max-Age: 1728000');
 
-        <div class = "btns">
-            <span class = "txt" id = "sgn_in" onclick= "window.location.href = 'login.php'">Sign In</span>
-            <span class = "txt" id = "rgstr" onclick= "window.location.href = 'createAcc.php'">Register</span>
-            <input type = "button" class = "btn1" id = "cart" value = "Cart">
-            <sup class = "cVal" id = "cartVal">0</sup>
-        </div>
+	$conn = mysqli_connect('sophia.cs.hku.hk', 'tibrewal', 'KLIipPTB', 'tibrewal') or die ('Error! '.mysqli_connect_error($conn));
 
-        <hr>
+	if ($_POST['show'] == 'all') {
+		$query = 'select * from book';
+        $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+        
+        while($row = mysqli_fetch_array($result)) {
+            print "<div class=\"card\">";
+            print "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" style=\"width:100%\">";
+            print "<h3>".$row['BookName']."</h3>";
+            print "<p class=\"price\">$ ".$row['Price']."</p>";
+            print "<p>Author: ".$row['Author']."</p>";
+            print "<p>Publisher: ".$row['Publisher']."</p>";
+            print "<button>View Details</button>";
+		    print "</div>";
+	    }
+    } else if ($_POST['show'] == 'filterC') {
+		$query = 'select * from book Where Category = \''.$_POST['category'].'\'';
+        $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+        
+        while($row = mysqli_fetch_array($result)) {
+            print "<div class=\"card\">";
+            print "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" style=\"width:100%\">";
+            print "<h3>".$row['BookName']."</h3>";
+            print "<p class=\"price\">$ ".$row['Price']."</p>";
+            print "<p>Author: ".$row['Author']."</p>";
+            print "<p>Publisher: ".$row['Publisher']."</p>";
+            print "<button>View Details</button>";
+		    print "</div>";
+	    }
+    } else if ($_POST['show'] == 'sort') {
+		$query = 'select * from book order by Price';
+        $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+        
+        while($row = mysqli_fetch_array($result)) {
+            print "<div class=\"card\">";
+            print "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" style=\"width:100%\">";
+            print "<h3>".$row['BookName']."</h3>";
+            print "<p class=\"price\">$ ".$row['Price']."</p>";
+            print "<p>Author: ".$row['Author']."</p>";
+            print "<p>Publisher: ".$row['Publisher']."</p>";
+            print "<button>View Details</button>";
+		    print "</div>";
+	    }
+    } else if ($_POST['show'] == 'search') {
+        $query = 'select * from book Where';
 
-        <div class="row">
-            <div class="column left">
-                <h1>Category</h1>
-                <ul id = "cList">
-                    <li><a>Storybook</a></li>
-                    <li><a>Contemporary Fiction</a></li>
-                    <li><a>Picture Book</a></li>
-                    <li><a>History</a></li>
-                </ul>
-            </div>
+        $sKeyword = explode(" ", $_POST['keyword']);
+        foreach($sKeyword as $value){
+            $query = $query." BookName Like '".$value."%' Or";
+        }
+        $query = $query." 0 = 1";
 
-            <div class="column right">
-                <div>
-                    <a class = "hLink" href = "main.php">Home</a>
-                    <span class = "txt1" id = "hSep"> > </span> 
-                    <a class = "hLink" id = "sLink" href = "">Storybook</a>
-
-                    <h1 id = "pHeading">All Books</h1>
-
-                    <input type = "button" class = "btn1 aRight" id = "sLow" value = "Sort by Price (Lowest)">
-                </div>
-
-                <br>
-                
-                <div id = "entries" class = "mt20">
-                    <div class="card">
-                        <img src="Assets/images/book_1.jpeg" alt="Denim Jeans" style="width:100%">
-                        <h1>Tailored Jeans</h1>
-                        <p class="price">$19.99</p>
-                        <p>Some text about the jeans..</p>
-                        <button>Add to Cart</button>
-                    </div>
-
-                    <div class="card">
-                        <img src="Assets/images/book_2.jpeg" alt="Denim Jeans" style="width:100%">
-                        <h1>Tailored Jeans</h1>
-                        <p class="price">$19.99</p>
-                        <p>Some text about the jeans..</p>
-                        <button>Add to Cart</button>
-                    </div>
-
-                    <div class="card">
-                        <img src="Assets/images/book_3.jpeg" alt="Denim Jeans" style="width:100%">
-                        <h1>Tailored Jeans</h1>
-                        <p class="price">$19.99</p>
-                        <p>Some text about the jeans..</p>
-                        <button>Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script type = "text/javascript">
-            window.onload = function() {
-                document.getElementById("hSep").style.visibility = "hidden";
-                document.getElementById("sLink").style.visibility = "hidden";
-            }
-            
-            document.getElementById("sbtn").onclick = function () {
-                document.getElementById("pHeading").innerHTML = "Searching Resuts";
-            }
-
-            document.getElementById("sLow").onclick = function () {
-                document.getElementById("pHeading").innerHTML = "All Books (Sort by Price Lowest)";
-            }
-
-            $("#cList li").click(function() {
-                document.getElementById("pHeading").innerHTML = "All " + $(this).text();
-                document.getElementById("hSep").style.visibility = "visible";
-                document.getElementById("sLink").innerHTML = $(this).text();
-                document.getElementById("sLink").style.visibility = "visible";
-            })
-        </script>
-    </body>
-</html>
+        $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+        
+        while($row = mysqli_fetch_array($result)) {
+            print "<div class=\"card\">";
+            print "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" style=\"width:100%\">";
+            print "<h3>".$row['BookName']."</h3>";
+            print "<p class=\"price\">$ ".$row['Price']."</p>";
+            print "<p>Author: ".$row['Author']."</p>";
+            print "<p>Publisher: ".$row['Publisher']."</p>";
+            print "<button>View Details</button>";
+		    print "</div>";
+	    }
+    } else if ($_POST['show'] == 'allC') {
+		$query = 'select distinct Category from book';
+        $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+        
+        while($row = mysqli_fetch_array($result)) {
+            print "<li onclick=\"filterC(this)\">".$row['Category']."</li>";
+	    }
+    }
+    
+    mysqli_free_result($result);
+	mysqli_close($conn);
+?>

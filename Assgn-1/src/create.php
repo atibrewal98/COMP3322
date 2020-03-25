@@ -8,7 +8,6 @@
 	$errors = array();
 	$same = array();
 	$confirm = array();
-	$pass = array();
 
 	$conn = mysqli_connect('sophia.cs.hku.hk', 'tibrewal', 'KLIipPTB', 'tibrewal') or die ('Error! '.mysqli_connect_error($conn));
 

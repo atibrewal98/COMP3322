@@ -38,10 +38,6 @@
                 window.location.href = "createAcc.php";
             }
 
-            function callMain(){
-                window.location.href = "main.php";
-            }
-
             function callLogin(){
                 setTimeout(() => {
                     window.location.href = "login.php";

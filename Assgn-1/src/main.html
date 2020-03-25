@@ -4,7 +4,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Book Store</title>
         <link rel= "stylesheet" type= "text/css"  href= "Assets/styles.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
     <body>
         <div class = "center">
@@ -25,18 +24,14 @@
             <div class="column left">
                 <h1>Category</h1>
                 <ul id = "cList">
-                    <li><a>Storybook</a></li>
-                    <li><a>Contemporary Fiction</a></li>
-                    <li><a>Picture Book</a></li>
-                    <li><a>History</a></li>
                 </ul>
             </div>
 
             <div class="column right">
                 <div>
-                    <a class = "hLink" href = "main.php">Home</a>
+                    <a class = "hLink" href = "main.html">Home</a>
                     <span class = "txt1" id = "hSep" style="visibility: hidden;"> > </span> 
-                    <a class = "hLink" id = "sLink" href = "" style="visibility: hidden;">Storybook</a>
+                    <a class = "hLink" id = "sLink" href = "javascript:void(0)" style="visibility: hidden;"></a>
 
                     <h1 id = "pHeading">All Books</h1>
 
@@ -46,53 +41,134 @@
                 <br>
                 
                 <div id = "entries" class = "mt20">
-                    <div class="card">
-                        <img src="Assets/images/book_1.jpeg" alt="Denim Jeans" style="height: 300px; width:auto">
-                        <h1>Tailored Jeans</h1>
-                        <p class="price">$19.99</p>
-                        <p>Some text about the jeans..</p>
-                        <button>Add to Cart</button>
-                    </div>
-
-                    <div class="card">
-                        <img src="Assets/images/book_2.jpeg" alt="Denim Jeans" style="height: 300px; width:auto">
-                        <h1>Tailored Jeans</h1>
-                        <p class="price">$19.99</p>
-                        <p>Some text about the jeans..</p>
-                        <button>Add to Cart</button>
-                    </div>
-
-                    <div class="card">
-                        <img src="Assets/images/book_3.jpeg" alt="Denim Jeans" style="height: 300px; width:auto">
-                        <h1>Tailored Jeans</h1>
-                        <p class="price">$19.99</p>
-                        <p>Some text about the jeans..</p>
-                        <button>Add to Cart</button>
-                    </div>
                 </div>
             </div>
         </div>
 
+        <hr>
+
         <script type = "text/javascript">
             window.onload = function() {
-                document.getElementById("hSep").style.visibility = "hidden";
-                document.getElementById("sLink").style.visibility = "hidden";
+                showAll();
+                showCategory();
+            }
+
+
+
+            // Show All Books
+            function showAll(){
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var mesgs = document.getElementById("entries");
+                        mesgs.innerHTML = xmlhttp.responseText;
+                    }
+			    }
+                xmlhttp.open("POST", "main.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=all");
+            }
+
+
+
+            // Show All Distinct Category
+            function showCategory(){
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var mesgs = document.getElementById("cList");
+                        mesgs.innerHTML = xmlhttp.responseText;
+                    }
+			    }
+                xmlhttp.open("POST", "main.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=allC");
             }
             
+
+            //Search Button
             document.getElementById("sbtn").onclick = function () {
                 document.getElementById("pHeading").innerHTML = "Searching Resuts";
+
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var mesgs = document.getElementById("entries");
+                        mesgs.innerHTML = xmlhttp.responseText;
+                    }
+			    }
+                xmlhttp.open("POST", "main.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=search&keyword="+document.getElementById("sbar").value);
             }
 
+
+
+            //Sort by Price Button
             document.getElementById("sLow").onclick = function () {
                 document.getElementById("pHeading").innerHTML = "All Books (Sort by Price Lowest)";
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var mesgs = document.getElementById("entries");
+                        mesgs.innerHTML = xmlhttp.responseText;
+                    }
+			    }
+                xmlhttp.open("POST", "main.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=sort");
             }
 
-            $("#cList li").click(function() {
-                document.getElementById("pHeading").innerHTML = "All " + $(this).text();
+
+
+            //Filter Books By Category
+            function filterC(elem) {
+                document.getElementById("pHeading").innerHTML = "All " + elem.innerHTML;
                 document.getElementById("hSep").style.visibility = "visible";
-                document.getElementById("sLink").innerHTML = $(this).text();
+                document.getElementById("sLink").innerHTML = elem.innerHTML;
                 document.getElementById("sLink").style.visibility = "visible";
-            })
+
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var mesgs = document.getElementById("entries");
+                        mesgs.innerHTML = xmlhttp.responseText;
+                    }
+			    }
+                xmlhttp.open("POST", "main.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=filterC&category="+elem.innerHTML);
+            }
         </script>
     </body>
 </html>

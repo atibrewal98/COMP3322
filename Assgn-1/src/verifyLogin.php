@@ -10,7 +10,6 @@
 	$errors = array();
 	$same = array();
 	$confirm = array();
-	$pass = array();
 
 	$conn = mysqli_connect('sophia.cs.hku.hk', 'tibrewal', 'KLIipPTB', 'tibrewal') or die ('Error! '.mysqli_connect_error($conn));
 
@@ -30,7 +29,7 @@
 			if(mysqli_num_rows($result) == 1){
 				$_SESSION['username'] = $username;
 				mysqli_free_result($result);
-				array_push($pass, "Account already existed");
+				header("location: main.html");
 			} else {
 				mysqli_free_result($result);
 				array_push($confirm, "Invalid login, please login again.");

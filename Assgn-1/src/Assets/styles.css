@@ -98,7 +98,7 @@ hr{
 }
 
 .right{
-    width: 75%;
+    width: 72%;
     border-left: 3.5px solid black;
     border-radius: 2px;
     min-height: auto;
@@ -158,7 +158,7 @@ ul#cList li{
 }
 
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 850px) {
     .column {
       width: 100%;
     }
