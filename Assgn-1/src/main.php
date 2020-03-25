@@ -17,7 +17,7 @@
             print "<p class=\"price\">$ ".$row['Price']."</p>";
             print "<p>Author: ".$row['Author']."</p>";
             print "<p>Publisher: ".$row['Publisher']."</p>";
-            print "<button>View Details</button>";
+            print "<button id = \"".$row['BookName']."\" onclick = \"viewBook(this.id)\">View Details</button>";
 		    print "</div>";
 	    }
     } else if ($_POST['show'] == 'filterC') {
@@ -31,7 +31,7 @@
             print "<p class=\"price\">$ ".$row['Price']."</p>";
             print "<p>Author: ".$row['Author']."</p>";
             print "<p>Publisher: ".$row['Publisher']."</p>";
-            print "<button>View Details</button>";
+            print "<button id = \"".$row['BookName']."\" onclick = \"viewBook(this.id)\">View Details</button>";
 		    print "</div>";
 	    }
     } else if ($_POST['show'] == 'sort') {
@@ -45,7 +45,7 @@
             print "<p class=\"price\">$ ".$row['Price']."</p>";
             print "<p>Author: ".$row['Author']."</p>";
             print "<p>Publisher: ".$row['Publisher']."</p>";
-            print "<button>View Details</button>";
+            print "<button id = \"".$row['BookName']."\" onclick = \"viewBook(this.id)\">View Details</button>";
 		    print "</div>";
 	    }
     } else if ($_POST['show'] == 'search') {
@@ -53,7 +53,7 @@
 
         $sKeyword = explode(" ", $_POST['keyword']);
         foreach($sKeyword as $value){
-            $query = $query." BookName Like '".$value."%' Or";
+            $query = $query." BookName Like '%".$value."%' Or";
         }
         $query = $query." 0 = 1";
 
@@ -66,7 +66,7 @@
             print "<p class=\"price\">$ ".$row['Price']."</p>";
             print "<p>Author: ".$row['Author']."</p>";
             print "<p>Publisher: ".$row['Publisher']."</p>";
-            print "<button>View Details</button>";
+            print "<button id = \"".$row['BookName']."\" onclick = \"viewBook(this.id)\">View Details</button>";
 		    print "</div>";
 	    }
     } else if ($_POST['show'] == 'allC') {

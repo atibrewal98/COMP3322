@@ -21,6 +21,13 @@ body{
     border-radius: 7px;
 }
 
+.cartInp{
+    min-width: 200px;
+    height: 30px;
+    padding-left: 8px;
+    border-radius: 7px;
+}
+
 .center{
     text-align: center;
 }
@@ -102,6 +109,14 @@ hr{
     border-left: 3.5px solid black;
     border-radius: 2px;
     min-height: auto;
+}
+
+.left1{
+    width: 30%;
+}
+
+.right1{
+    width: 60%;
 }
 
 .row::after{
