@@ -14,11 +14,55 @@ body{
     border-radius: 3px;
 }
 
+.searchbox{
+    width: 60%;
+    height: 30px;
+    padding-left: 8px;
+    border-radius: 7px;
+}
+
+.center{
+    text-align: center;
+}
+
+.btns{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
 .btn{
     background-color: deepskyblue;
     border: 0px;
     border-radius: 3px;
     padding: 10px;
+}
+
+.btn1{
+    background-color: deepskyblue;
+    border: 0px;
+    border-radius: 5px;
+    padding: 5px 7px;
+}
+
+.aRight{
+    float: right;
+}
+
+.txt{
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.txt1{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.cVal{
+    font-size: 11px;
 }
 
 .heading{
@@ -37,4 +81,95 @@ body{
     padding: 10px;
     border-radius: 5px;
     border-top: deepskyblue 5px solid;
+}
+
+hr{
+    border: 1.75px solid black;
+    border-radius: 10px;
+}
+
+.column{
+    float: left;
+    padding: 10px;
+}
+
+.left{
+    width: 20%;
+    border-right: 1.75px solid black;
+    border-radius: 1px;
+}
+
+.right{
+    width: 75%;
+    border-left: 1.75px solid black;
+    border-radius: 1px;
+}
+
+.row::after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+ul#cList{
+    list-style-type: none;
+    padding-inline-start: 0px;
+}
+
+ul#cList li{
+    padding-bottom: 10px;
+    cursor: pointer;
+}
+
+.mt20{
+    margin-top: 20px;
+}
+
+#entries{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    flex-basis: 300px;
+    margin: auto;
+    text-align: center;
+    /* margin-bottom: 10px; */
+}
+
+.price {
+    color: grey;
+    font-size: 22px;
+}
+  
+.card button {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: deepskyblue;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+  
+.card button:hover {
+    opacity: 0.7;
+}
+
+
+@media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+    }
+
+    .left{
+        border: 0px;
+    }
+
+    .right{
+        border: 0px;
+    }
 }

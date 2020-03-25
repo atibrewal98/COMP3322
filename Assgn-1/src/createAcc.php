@@ -2,11 +2,25 @@
 <html>
     <head>
         <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Book Store</title>
         <link rel= "stylesheet" type= "text/css"  href= "Assets/styles.css">
     </head>
 
     <?php include('bodyHandler.php') ?>
+
+        <div class = "center">
+            <input type = "text" class = "searchbox" id = "sbar" placeholder = "Keyword(s)">
+            <input type = "button" class = "btn1" id = "sbtn" value = "Search">
+        </div>
+        
+        <div class = "btns">
+            <span class = "txt" id = "sgn_in" onclick= "window.location.href = 'login.php'">Sign In</span>
+            <span class = "txt" id = "rgstr" onclick= "window.location.href = 'createAcc.php'">Register</span>
+            <input type = "button" class = "btn1" id = "cart" value = "Cart">
+            <sup class = "cVal" id = "cartVal">0</sup>
+        </div>
+
         <div class = "whitebox">
             <h1 class = "heading">ANKIT'S BOOKSTORE - CREATE ACCOUNT</h1>
             <?php include('errorDisplay.php') ?>
