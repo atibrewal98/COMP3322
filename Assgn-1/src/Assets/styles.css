@@ -90,6 +90,14 @@ body{
     border-top: deepskyblue 5px solid;
 }
 
+.whitebox1{
+    background-color: white;
+    padding: 20px;
+    margin: 20px 50px;
+    border-radius: 5px;
+    border-top: deepskyblue 5px solid;
+}
+
 hr{
     border: 1.75px solid black;
     border-radius: 10px;
@@ -117,6 +125,25 @@ hr{
 
 .right1{
     width: 60%;
+}
+
+.column1{
+    float: left;
+    padding-left: 10px;
+}
+
+.row1{
+    max-height: 200px;
+}
+
+.row1::after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.colA{
+    width: 30%;
 }
 
 .row::after{
@@ -180,5 +207,9 @@ ul#cList li{
 
     .right{
         border: 0px;
+    }
+
+    .whitebox1{
+        margin: 20px 10px;
     }
 }

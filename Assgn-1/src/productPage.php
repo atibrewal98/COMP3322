@@ -39,6 +39,7 @@
                         }
                     ?>
                 </div>
+
                 <?php
                     header('Access-Control-Allow-Origin: *');
                     header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
@@ -68,6 +69,7 @@
                     mysqli_free_result($result);
 	                mysqli_close($conn);
                 ?>
+                
                 <input type = "number" min="1" value="1" class = "cartInp" id = "cbar">
                 <input type = "button" class = "btn1" id = "sbtn" value = "Add to Cart">
             </div>
