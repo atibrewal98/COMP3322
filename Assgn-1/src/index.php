@@ -12,8 +12,14 @@
         </div>
 
         <div class = "btns">
-            <span class = "txt" id = "sgn_in" onclick= "window.location.href = 'login.php'">Sign In</span>
-            <span class = "txt" id = "rgstr" onclick= "window.location.href = 'createAcc.php'">Register</span>
+            <?php 
+                if(!isset($_SESSION['username'])){
+                    echo "<span class = \"txt\" id = \"sgn_in\" onclick= \"window.location.href = 'login.php'\">Sign In</span>";
+                    echo "<span class = \"txt\" id = \"rgstr\" onclick= \"window.location.href = 'createAcc.php'\">Register</span>";
+                } else {
+                    echo "<span class = \"txt\" id = \"logout\" onclick= \"handleLogout()\">Logout</span>";
+                }
+            ?>
             <input type = "button" class = "btn1" id = "cart" value = "Cart">
             <sup class = "cVal" id = "cartVal">0</sup>
         </div>
@@ -29,7 +35,7 @@
 
             <div class="column right">
                 <div>
-                    <a class = "hLink" href = "main.html">Home</a>
+                    <a class = "hLink" href = "index.php">Home</a>
                     <span class = "txt1" id = "hSep" style="visibility: hidden;"> > </span> 
                     <a class = "hLink" id = "sLink" href = "javascript:void(0)" style="visibility: hidden;"></a>
 
@@ -52,6 +58,13 @@
                 showAll();
                 showCategory();
             }
+            
+
+            //Logout
+            function handleLogout(){
+                window.location.href = "logout.php?logout='1'"
+            }
+
 
             //Open Book Page
             function viewBook(elem){

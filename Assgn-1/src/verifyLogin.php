@@ -29,7 +29,7 @@
 			if(mysqli_num_rows($result) == 1){
 				$_SESSION['username'] = $username;
 				mysqli_free_result($result);
-				header("location: main.html");
+				header("location: index.php");
 			} else {
 				mysqli_free_result($result);
 				array_push($confirm, "Invalid login, please login again.");

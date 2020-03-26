@@ -12,9 +12,15 @@
         </div>
 
         <div class = "btns">
-            <span class = "txt" id = "sgn_in" onclick= "window.location.href = 'login.php'">Sign In</span>
-            <span class = "txt" id = "rgstr" onclick= "window.location.href = 'createAcc.php'">Register</span>
-            <input type = "button" class = "btn1" id = "cart" value = "Cart">
+            <?php 
+                if(!isset($_SESSION['username'])){
+                    echo "<span class = \"txt\" id = \"sgn_in\" onclick= \"window.location.href = 'login.php'\">Sign In</span>";
+                    echo "<span class = \"txt\" id = \"rgstr\" onclick= \"window.location.href = 'createAcc.php'\">Register</span>";
+                } else {
+                    echo "<span class = \"txt\" id = \"logout\" onclick= \"handleLogout()\">Logout</span>";
+                }
+            ?>
+                <input type = "button" class = "btn1" id = "cart" value = "Cart">
             <sup class = "cVal" id = "cartVal">0</sup>
         </div>
 
@@ -23,25 +29,52 @@
         <div class="row">
             <div class="column left1">
                 <div>
-                    <a class = "hLink" href = "main.html">Home</a>
-                    <span class = "txt1" id = "hSep"> > </span> 
-                    <a class = "hLink" id = "sLink" href = "javascript:void(0)">The Creature Choir</a>
+                    <a class = "hLink" href = "index.php">Home</a>
+                    <span class = "txt1" id = "hSep"> > </span>
+                    <?php
+                        if(isset($_COOKIE['Book_Details'])){
+                            echo "<a class = \"hLink\" id = \"sLink\" href = \"javascript:void(0)\">".$_COOKIE['Book_Details']."</a>";
+                        }
+                    ?>
                 </div>
-                <img src="Assets/images/book_1.jpeg" alt="Book Image" class="mt20">
-            </div>
+                <?php
+                    header('Access-Control-Allow-Origin: *');
+                    header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
+                    header('Access-Control-Allow-Headers: token, Content-Type');
+                    header('Access-Control-Max-Age: 1728000');
+                
+                    $conn = mysqli_connect('sophia.cs.hku.hk', 'tibrewal', 'KLIipPTB', 'tibrewal') or die ('Error! '.mysqli_connect_error($conn));
+                    if(isset($_COOKIE['Book_Details'])){
+                        $query = 'select * from book Where BookName Like \''.$_COOKIE['Book_Details'].'%\'';
+                        $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+                    }
 
-            <div class="column right1">
-                <h1>The Creature Choir</h1>
-                <h4>Author: </h4>
-                <h4>Published: </h4>
-                <h4>Publisher: </h4>
-                <h4>Category: </h4>
-                <h4>Language: </h4>
-                <h4>Description: </h4>
-                <h4>Price: </h4>
+                    while($row = mysqli_fetch_array($result)){
+                        echo "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" class=\"mt20\" style = \"max-width: 90%;\">";
+                        echo "</div>";
+                        echo "<div class=\"column right1\">";
+                        echo "<h1>".$_COOKIE['Book_Details']."</h1>";
+                        echo "<h4>Author: ".$row['Author']."</h4>";
+                        echo "<h4>Published: ".$row['Published']."</h4>";
+                        echo "<h4>Publisher: ".$row['Publisher']."</h4>";
+                        echo "<h4>Category: ".$row['Category']."</h4>";
+                        echo "<h4>Language: ".$row['Lang']."</h4>";
+                        echo "<h4>Description: ".$row['Description']."</h4>";
+                        echo "<h4>Price: $".$row['Price']."</h4>";
+                    }
+
+                    mysqli_free_result($result);
+	                mysqli_close($conn);
+                ?>
                 <input type = "number" min="1" value="1" class = "cartInp" id = "cbar">
                 <input type = "button" class = "btn1" id = "sbtn" value = "Add to Cart">
             </div>
         </div>
+
+        <script type = "text/javascript">
+            function handleLogout(){
+                window.location.href = "logout.php?logout='1'"
+            }
+        </script>
     </body>
 </html>

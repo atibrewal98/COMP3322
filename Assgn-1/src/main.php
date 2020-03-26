@@ -6,7 +6,9 @@
 
 	$conn = mysqli_connect('sophia.cs.hku.hk', 'tibrewal', 'KLIipPTB', 'tibrewal') or die ('Error! '.mysqli_connect_error($conn));
 
-	if ($_POST['show'] == 'all') {
+    if(isset($_POST['book'])){
+        setcookie('Book_Details', $_POST['book'], time() + 86400, "/");
+    } else if ($_POST['show'] == 'all') {
 		$query = 'select * from book';
         $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
         
