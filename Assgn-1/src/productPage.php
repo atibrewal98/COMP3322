@@ -12,7 +12,9 @@
         </div>
 
         <div class = "btns">
-            <?php 
+            <?php
+                session_start();
+
                 if(!isset($_SESSION['username'])){
                     echo "<span class = \"txt\" id = \"sgn_in\" onclick= \"window.location.href = 'login.php'\">Sign In</span>";
                     echo "<span class = \"txt\" id = \"rgstr\" onclick= \"window.location.href = 'createAcc.php'\">Register</span>";

@@ -12,7 +12,9 @@
         </div>
 
         <div class = "btns">
-            <?php 
+            <?php
+                session_start();
+
                 if(!isset($_SESSION['username'])){
                     echo "<span class = \"txt\" id = \"sgn_in\" onclick= \"window.location.href = 'login.php'\">Sign In</span>";
                     echo "<span class = \"txt\" id = \"rgstr\" onclick= \"window.location.href = 'createAcc.php'\">Register</span>";
@@ -131,8 +133,6 @@
 
             //Search Button
             document.getElementById("sbtn").onclick = function () {
-                document.getElementById("pHeading").innerHTML = "Searching Resuts";
-
                 var xmlhttp;
                 if (window.XMLHttpRequest) {
                     xmlhttp = new XMLHttpRequest();
@@ -144,6 +144,7 @@
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                         var mesgs = document.getElementById("entries");
                         mesgs.innerHTML = xmlhttp.responseText;
+                        document.getElementById("pHeading").innerHTML = "Searching Resuts";
                     }
 			    }
                 xmlhttp.open("POST", "main.php", true);
@@ -155,7 +156,6 @@
 
             //Sort by Price Button
             document.getElementById("sLow").onclick = function () {
-                document.getElementById("pHeading").innerHTML = "All Books (Sort by Price Lowest)";
                 var xmlhttp;
                 if (window.XMLHttpRequest) {
                     xmlhttp = new XMLHttpRequest();
@@ -167,6 +167,7 @@
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                         var mesgs = document.getElementById("entries");
                         mesgs.innerHTML = xmlhttp.responseText;
+                        document.getElementById("pHeading").innerHTML = "All Books (Sort by Price Lowest)";
                     }
 			    }
                 xmlhttp.open("POST", "main.php", true);
@@ -178,11 +179,6 @@
 
             //Filter Books By Category
             function filterC(elem) {
-                document.getElementById("pHeading").innerHTML = "All " + elem.innerHTML;
-                document.getElementById("hSep").style.visibility = "visible";
-                document.getElementById("sLink").innerHTML = elem.innerHTML;
-                document.getElementById("sLink").style.visibility = "visible";
-
                 var xmlhttp;
                 if (window.XMLHttpRequest) {
                     xmlhttp = new XMLHttpRequest();
@@ -194,6 +190,10 @@
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                         var mesgs = document.getElementById("entries");
                         mesgs.innerHTML = xmlhttp.responseText;
+                        document.getElementById("pHeading").innerHTML = "All " + elem.innerHTML;
+                        document.getElementById("hSep").style.visibility = "visible";
+                        document.getElementById("sLink").innerHTML = elem.innerHTML;
+                        document.getElementById("sLink").style.visibility = "visible";
                     }
 			    }
                 xmlhttp.open("POST", "main.php", true);
