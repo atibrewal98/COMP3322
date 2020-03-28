@@ -55,7 +55,7 @@
 
         $sKeyword = explode(" ", $_POST['keyword']);
         foreach($sKeyword as $value){
-            $query = $query." BookName Like '%".$value."%' Or";
+            $query = $query." BookName Like BINARY '%".$value."%' Or";
         }
         $query = $query." 0 = 1";
 

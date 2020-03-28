@@ -71,13 +71,18 @@
                 ?>
                 
                 <input type = "number" min="1" value="1" class = "cartInp" id = "cbar">
-                <input type = "button" class = "btn1" id = "sbtn" value = "Add to Cart">
+                <input type = "button" class = "btn1" id = "cbtn" value = "Add to Cart">
             </div>
         </div>
 
         <script type = "text/javascript">
             function handleLogout(){
                 window.location.href = "logout.php?logout='1'"
+            }
+
+            document.getElementById("cbtn").onclick = function () {
+                console.log("Here");
+                window.location.href = "createAcc.php";
             }
         </script>
     </body>
