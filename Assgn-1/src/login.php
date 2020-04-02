@@ -1,4 +1,10 @@
-<?php include('verifyLogin.php') ?>
+<?php 
+    if (isset($_GET['type'])) {
+        include('verifyCartLogin.php');
+    } else {
+        include('verifyLogin.php');
+    }
+?>
 <html>
     <head>
         <meta charset="utf-8"/>

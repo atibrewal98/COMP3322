@@ -56,7 +56,7 @@
                         echo "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" class=\"mt20\" style = \"max-width: 90%;\">";
                         echo "</div>";
                         echo "<div class=\"column right1\">";
-                        echo "<h1>".$_COOKIE['Book_Details']."</h1>";
+                        echo "<h1>".$row['BookName']."</h1>";
                         echo "<h4>Author: ".$row['Author']."</h4>";
                         echo "<h4>Published: ".$row['Published']."</h4>";
                         echo "<h4>Publisher: ".$row['Publisher']."</h4>";
@@ -64,6 +64,7 @@
                         echo "<h4>Language: ".$row['Lang']."</h4>";
                         echo "<h4>Description: ".$row['Description']."</h4>";
                         echo "<h4>Price: $".$row['Price']."</h4>";
+                        echo "<p id = \"bName\" style = \"visibility: hidden;\">".$row['BookId']."</p>";
                     }
 
                     mysqli_free_result($result);
@@ -81,8 +82,25 @@
             }
 
             document.getElementById("cbtn").onclick = function () {
-                console.log("Here");
-                window.location.href = "createAcc.php";
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+                xmlhttp.open("POST", "addCart.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=add&book="+document.getElementById("bName").innerHTML+"&quantity="+document.getElementById("cbar").value);
+
+                console.log(document.getElementById("bName").innerHTML)
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        document.getElementById("cbar").value = 1;
+                        window.location.href = "cart.php";
+                    }
+                }
             }
         </script>
     </body>

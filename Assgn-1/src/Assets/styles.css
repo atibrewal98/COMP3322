@@ -21,6 +21,10 @@ body{
     border-radius: 7px;
 }
 
+.mgCart{
+    margin: 10px 50px;
+}
+
 .cartInp{
     min-width: 200px;
     height: 30px;
@@ -88,6 +92,9 @@ body{
     padding: 10px;
     border-radius: 5px;
     border-top: deepskyblue 5px solid;
+    max-width: 800px;
+    text-align: center;
+    margin: 0 auto;
 }
 
 .whitebox1{
@@ -211,5 +218,9 @@ ul#cList li{
 
     .whitebox1{
         margin: 20px 10px;
+    }
+
+    .mgCart{
+        margin: 10px 10px;
     }
 }
