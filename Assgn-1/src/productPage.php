@@ -31,7 +31,7 @@
         <div class="row">
             <div class="column left1">
                 <div>
-                    <a class = "hLink" href = "index.php">Home</a>
+                    <a class = "hLink" href = "main.php">Home</a>
                     <span class = "txt1" id = "hSep"> > </span>
                     <?php
                         if(isset($_COOKIE['Book_Details'])){

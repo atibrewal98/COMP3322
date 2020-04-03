@@ -34,7 +34,7 @@
         <script type = "text/javascript">
             window.onload = function(){
                 setTimeout(() => {
-                    window.location.href = "index.php";
+                    window.location.href = "main.php";
                 }, 3000);
             }
         </script>

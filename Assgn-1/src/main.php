@@ -1,85 +1,205 @@
-<?php
-	header('Access-Control-Allow-Origin: *');
-	header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
-	header('Access-Control-Allow-Headers: token, Content-Type');
-	header('Access-Control-Max-Age: 1728000');
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Book Store</title>
+        <link rel= "stylesheet" type= "text/css"  href= "Assets/styles.css">
+    </head>
+    <body>
+        <div class = "center">
+            <input type = "text" class = "searchbox" id = "sbar" placeholder = "Keyword(s)">
+            <input type = "button" class = "btn1" id = "sbtn" value = "Search">
+        </div>
 
-	$conn = mysqli_connect('sophia.cs.hku.hk', 'tibrewal', 'KLIipPTB', 'tibrewal') or die ('Error! '.mysqli_connect_error($conn));
+        <div class = "btns">
+            <?php
+                session_start();
 
-    if(isset($_POST['book'])){
-        setcookie('Book_Details', $_POST['book'], time() + 86400, "/");
-    } else if ($_POST['show'] == 'all') {
-		$query = 'select * from book';
-        $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
-        
-        while($row = mysqli_fetch_array($result)) {
-            print "<div class=\"card\">";
-            print "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" style=\"width:100%\">";
-            print "<h3>".$row['BookName']."</h3>";
-            print "<p class=\"price\">$ ".$row['Price']."</p>";
-            print "<p>Author: ".$row['Author']."</p>";
-            print "<p>Publisher: ".$row['Publisher']."</p>";
-            print "<button id = \"".$row['BookName']."\" onclick = \"viewBook(this.id)\">View Details</button>";
-		    print "</div>";
-	    }
-    } else if ($_POST['show'] == 'filterC') {
-		$query = 'select * from book Where Category = \''.$_POST['category'].'\'';
-        $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
-        
-        while($row = mysqli_fetch_array($result)) {
-            print "<div class=\"card\">";
-            print "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" style=\"width:100%\">";
-            print "<h3>".$row['BookName']."</h3>";
-            print "<p class=\"price\">$ ".$row['Price']."</p>";
-            print "<p>Author: ".$row['Author']."</p>";
-            print "<p>Publisher: ".$row['Publisher']."</p>";
-            print "<button id = \"".$row['BookName']."\" onclick = \"viewBook(this.id)\">View Details</button>";
-		    print "</div>";
-	    }
-    } else if ($_POST['show'] == 'sort') {
-		$query = 'select * from book order by Price';
-        $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
-        
-        while($row = mysqli_fetch_array($result)) {
-            print "<div class=\"card\">";
-            print "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" style=\"width:100%\">";
-            print "<h3>".$row['BookName']."</h3>";
-            print "<p class=\"price\">$ ".$row['Price']."</p>";
-            print "<p>Author: ".$row['Author']."</p>";
-            print "<p>Publisher: ".$row['Publisher']."</p>";
-            print "<button id = \"".$row['BookName']."\" onclick = \"viewBook(this.id)\">View Details</button>";
-		    print "</div>";
-	    }
-    } else if ($_POST['show'] == 'search') {
-        $query = 'select * from book Where';
+                if(!isset($_SESSION['username'])){
+                    echo "<span class = \"txt\" id = \"sgn_in\" onclick= \"window.location.href = 'login.php'\">Sign In</span>";
+                    echo "<span class = \"txt\" id = \"rgstr\" onclick= \"window.location.href = 'createAcc.php'\">Register</span>";
+                } else {
+                    echo "<span class = \"txt\" id = \"logout\" onclick= \"handleLogout()\">Logout</span>";
+                }
+            ?>
+            <input type = "button" class = "btn1" id = "cart" value = "Cart" onclick = "window.location.href = 'cart.php'">
+            <?php include('cartNum.php') ?>
+        </div>
 
-        $sKeyword = explode(" ", $_POST['keyword']);
-        foreach($sKeyword as $value){
-            $query = $query." BookName Like BINARY '%".$value."%' Or";
-        }
-        $query = $query." 0 = 1";
+        <hr>
 
-        $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
-        
-        while($row = mysqli_fetch_array($result)) {
-            print "<div class=\"card\">";
-            print "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" style=\"width:100%\">";
-            print "<h3>".$row['BookName']."</h3>";
-            print "<p class=\"price\">$ ".$row['Price']."</p>";
-            print "<p>Author: ".$row['Author']."</p>";
-            print "<p>Publisher: ".$row['Publisher']."</p>";
-            print "<button id = \"".$row['BookName']."\" onclick = \"viewBook(this.id)\">View Details</button>";
-		    print "</div>";
-	    }
-    } else if ($_POST['show'] == 'allC') {
-		$query = 'select distinct Category from book';
-        $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
-        
-        while($row = mysqli_fetch_array($result)) {
-            print "<li onclick=\"filterC(this)\">".$row['Category']."</li>";
-	    }
-    }
-    
-    mysqli_free_result($result);
-	mysqli_close($conn);
-?>
+        <div class="row">
+            <div class="column left">
+                <h1>Category</h1>
+                <ul id = "cList">
+                </ul>
+            </div>
+
+            <div class="column right">
+                <div>
+                    <a class = "hLink" href = "main.php">Home</a>
+                    <span class = "txt1" id = "hSep" style="visibility: hidden;"> > </span> 
+                    <a class = "hLink" id = "sLink" href = "javascript:void(0)" style="visibility: hidden;"></a>
+
+                    <h1 id = "pHeading">All Books</h1>
+
+                    <input type = "button" class = "btn1 aRight" id = "sLow" value = "Sort by Price (Lowest)">
+                </div>
+
+                <br>
+                
+                <div id = "entries" class = "mt20">
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <script type = "text/javascript">
+            window.onload = function() {
+                showAll();
+                showCategory();
+            }
+            
+
+            //Logout
+            function handleLogout(){
+                window.location.href = "logout.php?logout='1'"
+            }
+
+
+            //Open Book Page
+            function viewBook(elem){
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+                xmlhttp.open("POST", "mainHandler.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=bookD&book="+elem);
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        window.location.href = "productPage.php";
+                    }
+                }
+            }
+
+            // Show All Books
+            function showAll(){
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var mesgs = document.getElementById("entries");
+                        mesgs.innerHTML = xmlhttp.responseText;
+                    }
+			    }
+                xmlhttp.open("POST", "mainHandler.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=all");
+            }
+
+
+
+            // Show All Distinct Category
+            function showCategory(){
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var mesgs = document.getElementById("cList");
+                        mesgs.innerHTML = xmlhttp.responseText;
+                    }
+			    }
+                xmlhttp.open("POST", "mainHandler.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=allC");
+            }
+            
+
+            //Search Button
+            document.getElementById("sbtn").onclick = function () {
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var mesgs = document.getElementById("entries");
+                        mesgs.innerHTML = xmlhttp.responseText;
+                        document.getElementById("pHeading").innerHTML = "Searching Resuts";
+                    }
+			    }
+                xmlhttp.open("POST", "mainHandler.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=search&keyword="+document.getElementById("sbar").value);
+            }
+
+
+
+            //Sort by Price Button
+            document.getElementById("sLow").onclick = function () {
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var mesgs = document.getElementById("entries");
+                        mesgs.innerHTML = xmlhttp.responseText;
+                        document.getElementById("pHeading").innerHTML = "All Books (Sort by Price Lowest)";
+                    }
+			    }
+                xmlhttp.open("POST", "mainHandler.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=sort");
+            }
+
+
+
+            //Filter Books By Category
+            function filterC(elem) {
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var mesgs = document.getElementById("entries");
+                        mesgs.innerHTML = xmlhttp.responseText;
+                        document.getElementById("pHeading").innerHTML = "All " + elem.innerHTML;
+                        document.getElementById("hSep").style.visibility = "visible";
+                        document.getElementById("sLink").innerHTML = elem.innerHTML;
+                        document.getElementById("sLink").style.visibility = "visible";
+                    }
+			    }
+                xmlhttp.open("POST", "mainHandler.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=filterC&category="+elem.innerHTML);
+            }
+        </script>
+    </body>
+</html>

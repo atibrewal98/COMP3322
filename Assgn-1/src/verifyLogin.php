@@ -48,7 +48,7 @@
 
 				$_SESSION['username'] = $username;
 				mysqli_free_result($result);
-				header("location: index.php");
+				header("location: main.php");
 			} else {
 				mysqli_free_result($result);
 				array_push($confirm, "Invalid login, please login again.");
