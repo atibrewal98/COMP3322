@@ -16,14 +16,14 @@
                 session_start();
 
                 if(!isset($_SESSION['username'])){
-                    echo "<span class = \"txt\" id = \"sgn_in\" onclick= \"window.location.href = 'login.php?type=\'cart\''\">Sign In</span>";
+                    echo "<span class = \"txt\" id = \"sgn_in\" onclick= \"window.location.href = 'loginCart.php'\">Sign In</span>";
                     echo "<span class = \"txt\" id = \"rgstr\" onclick= \"window.location.href = 'createAcc.php'\">Register</span>";
                 } else {
                     echo "<span class = \"txt\" id = \"logout\" onclick= \"handleLogout()\">Logout</span>";
                 }
             ?>
-                <input type = "button" class = "btn1" id = "cart" value = "Cart">
-            <sup class = "cVal" id = "cartVal">0</sup>
+            <input type = "button" class = "btn1" id = "cart" value = "Cart" onclick = "window.location.href = 'cart.php'">
+            <?php include('cartNum.php') ?>
         </div>
 
         <hr>
@@ -39,7 +39,7 @@
         </div>
 
         <script type = "text/javascript">
-        window.onload = function() {
+            window.onload = function() {
                 showAll();
             }
 

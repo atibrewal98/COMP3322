@@ -22,8 +22,8 @@
                     echo "<span class = \"txt\" id = \"logout\" onclick= \"handleLogout()\">Logout</span>";
                 }
             ?>
-                <input type = "button" class = "btn1" id = "cart" value = "Cart">
-            <sup class = "cVal" id = "cartVal">0</sup>
+                <input type = "button" class = "btn1" id = "cart" value = "Cart" onclick = "window.location.href = 'cart.php'">
+            <?php include('cartNum.php') ?>
         </div>
 
         <hr>

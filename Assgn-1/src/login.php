@@ -1,10 +1,4 @@
-<?php 
-    if (isset($_GET['type'])) {
-        include('verifyCartLogin.php');
-    } else {
-        include('verifyLogin.php');
-    }
-?>
+<?php include('verifyLogin.php') ?>
 <html>
     <head>
         <meta charset="utf-8"/>
@@ -23,8 +17,8 @@
         <div class = "btns">
             <span class = "txt" id = "sgn_in" onclick= "window.location.href = 'login.php'">Sign In</span>
             <span class = "txt" id = "rgstr" onclick= "window.location.href = 'createAcc.php'">Register</span>
-            <input type = "button" class = "btn1" id = "cart" value = "Cart">
-            <sup class = "cVal" id = "cartVal">0</sup>
+            <input type = "button" class = "btn1" id = "cart" value = "Cart" onclick = "window.location.href = 'cart.php'">
+            <?php include('cartNum.php') ?>
         </div>
 
         <div class = "whitebox">
