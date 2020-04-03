@@ -34,8 +34,8 @@
         </div>
 
         <div class = "mgCart">
-            <input type = "button" id = "lBack" class = "btn" value = "Back">
-            <input type = "button" id = "lCheck" class = "btn" value = "Checkout">
+            <input type = "button" id = "lBack" class = "btn" value = "Back" onclick = " window.location.href = 'index.php';">
+            <input type = "button" id = "lCheck" class = "btn" value = "Checkout" onclick = " window.location.href = 'checkout.php';">
         </div>
 
         <script type = "text/javascript">
@@ -82,11 +82,6 @@
                         mesgs.innerHTML = xmlhttp.responseText;
                     }
                 }
-            }
-
-            // Go Back to Main Page
-            document.getElementById("lBack").onclick = function () {
-                window.location.href = "index.php";
             }
 
             //Handle User Logout

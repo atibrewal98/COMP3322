@@ -68,6 +68,63 @@
                 $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
             }
         }
+    } else if ($_POST['show'] == 'allChk'){
+        if(!isset($_SESSION['username'])){
+            $cart = array();
+            if(isset($_SESSION['cart'])){
+                $cart = $_SESSION['cart'];
+                $total = 0;
+
+                foreach ($cart as $key => $row) {
+                    $total = $total + $row[4];
+                    print "<div class=\"row1\">";
+                    print "<div class=\"column1 colA\">";
+                    print "    <img src=\"Assets/images/".$row[1]."\" alt=\"Book Image\" class=\"mt20\" style = \"max-height:180px; width:auto; max-width: 90%;\">";
+                    print "</div>";
+
+                    print "<div class=\"column1 colA\">";
+                    print "    <h3>".$row[3]." x ".$row[2]."</h3>";
+                    print "</div>";
+
+                    print "<div class=\"column1 colA\">";
+                    print "    <h3 style=\"color: deepskyblue;\">Subtotal: $".$row[4]."</h3>";
+                    print "</div>";
+                    print "</div>";
+                }
+
+                print "<div class=\"mgCart\">";
+                print "<h1 style=\"color: deepskyblue; text-align: left;\">Total Price: $".$total."</h1>";
+                print "</div>";
+            }
+        } else {
+            $username = $_SESSION['username'];
+            $query = "Select B.BookId, B.BookImg, B.bookName, C.Quantity, B.Price * C.Quantity as SubTotal From cart as C Inner Join book as B on B.bookId = C.bookId Where UserId = '".$username."'";
+            $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+
+            $total = 0;
+            
+            while($row = mysqli_fetch_array($result)) {
+                $total = $total + $row['SubTotal'];
+                print "<div class=\"row1\">";
+                print "<div class=\"column1 colA\">";
+                print "    <img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" class=\"mt20\" style = \"max-height:180px; width:auto; max-width: 90%;\">";
+                print "</div>";
+
+                print "<div class=\"column1 colA\">";
+                print "    <h3>".$row['Quantity']." x ".$row['bookName']."</h3>";
+                print "</div>";
+
+                print "<div class=\"column1 colA\">";
+                print "    <h3 style=\"color: deepskyblue;\">Subtotal: $".$row['SubTotal']."</h3>";
+                print "</div>";
+                print "</div>";
+            }
+
+            print "<div class=\"mgCart\" style = \"margin-top: 15px;\">";
+            print "<h1 style=\"color: deepskyblue; text-align: left;\">Total Price: $".$total."</h1>";
+            print "</div>";
+            
+        }
     } else if ($_POST['show'] == 'all'){
         if(!isset($_SESSION['username'])){
             $cart = array();

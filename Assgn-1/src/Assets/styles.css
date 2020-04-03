@@ -14,6 +14,19 @@ body{
     border-radius: 3px;
 }
 
+.inp2{
+    width: 100%;
+    height: 30px;
+    padding-left: 8px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+}
+
+.mr10{
+    margin-right: 10px;
+}
+
 .searchbox{
     width: 60%;
     height: 30px;
@@ -124,6 +137,15 @@ hr{
     border-left: 3.5px solid black;
     border-radius: 2px;
     min-height: auto;
+}
+
+.leftF{
+    width: 20%;
+    text-align: left;
+}
+
+.rightF{
+    width: 70%;
 }
 
 .left1{
