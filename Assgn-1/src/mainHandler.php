@@ -15,7 +15,7 @@
         while($row = mysqli_fetch_array($result)) {
             print "<div class=\"card\">";
             print "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" style=\"width:100%\">";
-            print "<h3>".$row['BookName']."</h3>";
+            print "<h3><span id = \"".$row['BookName']."\" onclick = \"viewBook(this.id)\" style = \"cursor: pointer;\">".$row['BookName']."</span></h3>";
             print "<p class=\"price\">$ ".$row['Price']."</p>";
             print "<p>Author: ".$row['Author']."</p>";
             print "<p>Publisher: ".$row['Publisher']."</p>";
@@ -29,7 +29,7 @@
         while($row = mysqli_fetch_array($result)) {
             print "<div class=\"card\">";
             print "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" style=\"width:100%\">";
-            print "<h3>".$row['BookName']."</h3>";
+            print "<h3><span id = \"".$row['BookName']."\" onclick = \"viewBook(this.id)\" style = \"cursor: pointer;\">".$row['BookName']."</span></h3>";
             print "<p class=\"price\">$ ".$row['Price']."</p>";
             print "<p>Author: ".$row['Author']."</p>";
             print "<p>Publisher: ".$row['Publisher']."</p>";
@@ -43,7 +43,7 @@
         while($row = mysqli_fetch_array($result)) {
             print "<div class=\"card\">";
             print "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" style=\"width:100%\">";
-            print "<h3>".$row['BookName']."</h3>";
+            print "<h3><span id = \"".$row['BookName']."\" onclick = \"viewBook(this.id)\" style = \"cursor: pointer;\">".$row['BookName']."</span></h3>";
             print "<p class=\"price\">$ ".$row['Price']."</p>";
             print "<p>Author: ".$row['Author']."</p>";
             print "<p>Publisher: ".$row['Publisher']."</p>";
@@ -64,7 +64,7 @@
         while($row = mysqli_fetch_array($result)) {
             print "<div class=\"card\">";
             print "<img src=\"Assets/images/".$row['BookImg']."\" alt=\"Book Image\" style=\"width:100%\">";
-            print "<h3>".$row['BookName']."</h3>";
+            print "<h3><span id = \"".$row['BookName']."\" onclick = \"viewBook(this.id)\" style = \"cursor: pointer;\">".$row['BookName']."</span></h3>";
             print "<p class=\"price\">$ ".$row['Price']."</p>";
             print "<p>Author: ".$row['Author']."</p>";
             print "<p>Publisher: ".$row['Publisher']."</p>";
