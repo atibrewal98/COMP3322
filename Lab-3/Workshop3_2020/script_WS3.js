@@ -15,7 +15,7 @@ $(document).ready(function () {
     });
 
     $("#fC").click(function () {
-		$.get("queryEntries_WS3.php", {show: 'course', value: $("course").val()}, function(data, status){
+		$.get("queryEntries_WS3.php", {show: 'course', value: $("#course").val()}, function(data, status){
 			if (status == 'success') {
 				$("#entries").html(data);
 				$("#course").val("");
