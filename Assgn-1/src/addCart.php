@@ -286,6 +286,26 @@
             print "<h1 style=\"color: deepskyblue;\">Total Price: $".$total."</h1>";
             print "</div>";
         }
+    } else if ($_POST['show'] == 'cVal'){
+        if(isset($_SESSION['username'])){
+            $query = "Select ifNull(Sum(Quantity), 0) as CartTot From cart Where UserId = '".$_SESSION['username']."'";
+            $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+    
+            while($row = mysqli_fetch_array($result)) {
+                print "".$row['CartTot']."";
+            }
+        } else if (isset($_SESSION['cart'])){
+            $cart = $_SESSION['cart'];
+            $total = 0;
+    
+            foreach ($cart as $key => $row) {
+                $total = $total + $row[3];
+            }
+    
+            print "".$total."";
+        } else {
+            print "0";
+        }
     }
 
     mysqli_free_result($result);

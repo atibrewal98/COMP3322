@@ -340,8 +340,12 @@
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                         var mesgs = document.getElementById("accErr");
                         mesgs.innerHTML = xmlhttp.responseText;
-                        document.getElementById("lname").value = "";
-                        suname.focus();
+                        if(xmlhttp.responseText != ''){
+                            document.getElementById("lname").value = "";
+                            suname.focus();
+                        } else{
+                            genInvoice();
+                        }
                     }
 			    }
             

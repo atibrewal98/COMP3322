@@ -72,16 +72,39 @@
                     xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
                 }
 
-                xmlhttp.open("POST", "addCart.php", true);
-                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xmlhttp.send("show=del&book="+elem);
-
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                         var mesgs = document.getElementById("cEntries");
                         mesgs.innerHTML = xmlhttp.responseText;
+                        getCartVal();
                     }
                 }
+
+                xmlhttp.open("POST", "addCart.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=del&book="+elem);
+            }
+
+
+            //Get Updated Cart Value
+            function getCartVal(elem){
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var mesgs = document.getElementById("cartVal");
+                        mesgs.innerHTML = xmlhttp.responseText;
+                    }
+                }
+
+                xmlhttp.open("POST", "addCart.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=cVal");
             }
 
             //Handle User Logout
