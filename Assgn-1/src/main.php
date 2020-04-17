@@ -57,8 +57,14 @@
 
         <script type = "text/javascript">
             window.onload = function() {
-                showAll();
                 showCategory();
+                <?php
+                    if(isset($_GET['show'])){
+                        echo "searchBooks('".$_GET['search']."');";
+                    } else{
+                        echo "showAll();";
+                    }
+                ?>
             }
             
 
@@ -150,6 +156,26 @@
                 xmlhttp.open("POST", "mainHandler.php", true);
                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xmlhttp.send("show=search&keyword="+document.getElementById("sbar").value);
+            }
+
+            function searchBooks (elem) {
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var mesgs = document.getElementById("entries");
+                        mesgs.innerHTML = xmlhttp.responseText;
+                        document.getElementById("pHeading").innerHTML = "Searching Resuts";
+                    }
+			    }
+                xmlhttp.open("POST", "mainHandler.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=search&keyword="+elem);
             }
 
 

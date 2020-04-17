@@ -16,7 +16,7 @@
     <body>
         <div class = "center">
             <input type = "text" class = "searchbox" id = "sbar" placeholder = "Keyword(s)">
-            <input type = "button" class = "btn1" id = "sbtn" value = "Search">
+            <input type = "button" class = "btn1" id = "sbtn" value = "Search" onclick = "window.location.href = 'main.php?show=s&search='+document.getElementById('sbar').value">
         </div>
         
         <div class = "btns">
