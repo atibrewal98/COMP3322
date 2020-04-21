@@ -35,7 +35,7 @@
                         <label for="username" class = "mr10">Username</label>
                     </div>
                     <div class = "column rightF">
-                        <input type = "text" id = "lname" class = "inp2" name = "username" placeholder = "Desired Username"> <br>
+                        <input type = "text" id = "lname" class = "inp2" name = "username" placeholder = "Desired Username" onchange = "validateUser()"> <br>
                     </div>  
                 </div>
 
@@ -161,6 +161,28 @@
             window.onload = function() {
                 showAll();
             }
+
+
+            function validateUser()
+             {
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var mesgs = document.getElementById("accErr");
+                        mesgs.innerHTML = xmlhttp.responseText;
+                    }
+                }
+
+                xmlhttp.open("POST", "checkDetails.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("show=validate&user="+document.getElementById("lname").value);
+             }
 
             // Show All Cart Items
             function showAll(){

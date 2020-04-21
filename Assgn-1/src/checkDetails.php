@@ -54,7 +54,18 @@
 
             mysqli_free_result($result);
         }
+    } else if(isset($_POST['show'])) {
+        $username = $_POST['user'];
+        $query = "select * from login where UserId = '".$username."';";
+        $result = mysqli_query($conn, $query) or die ('Failed to query '.mysqli_error($conn));
+
+        if(mysqli_num_rows($result) > 0) {
+            print "<h1 class = \"hg\">Username Duplicated!</h1>";
+        } else {
+            print "<h1 class = \"hg\">Username Valid</h1>";
+        }
     }
     
+    mysqli_free_result($result);
     mysqli_close($conn);
 ?>

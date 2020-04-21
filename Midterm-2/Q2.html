@@ -1,0 +1,52 @@
+<html>
+<head>
+    <title>    </title>
+</head>
+
+<body>
+    <h1>AJAX</h1>
+    <button type="button" onclick="loadDoc()">Load Content</button>
+    <p id="demo"></p>
+
+
+    <script>
+        function loadDoc(){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("demo").innerHTML = this.getAllResponseHeaders();
+                } else if (this.readyState == 4) {
+                    document.getElementById("demo").innerHTML = this.status+" "+this.statusText;
+                }
+            };
+
+            xhttp.open("HEAD", "info.txt", true);
+            xhttp.send();
+        }
+
+        async function loadDoc() {
+            try{
+                let response = await fetch('info.txt');
+                if(response.status == 200){
+                    document.getElementById("demo").innerHTML = this.getHeaders(response);
+                }
+                else{
+                    document.getElementById("demo").innerHTML = response.status + " " + response.statusText;
+                }
+            } catch (err){
+                console.log("Fetch Error");
+            }
+        }
+
+
+        function getHeaders(response) {
+            let headers = "";
+            // Display the key/value pairs
+            for (var pair of response.headers.entries()) {     
+                headers += pair[0]+ ': '+ pair[1]+' ';
+            }
+            return headers;
+        }
+    </script>
+</body>
+</html>

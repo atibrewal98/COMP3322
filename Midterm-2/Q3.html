@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Get Mark</title>
+        <script src='jquery-3.3.1.js'></script>
+        <style>
+        table, th, td {
+        border: 1px solid blue;
+        text-align: center;
+        }
+        </style>
+    </head>
+    
+    <body>
+        <p><button onclick="getmark(event);">Get Mark</button></p>
+        <div id="show"></div>
+
+        <script>
+            function getmark(event) {
+                $.get("getmark.php", {}, function(data, status){
+                    if (status == 'success') {
+                        let txt = "<table>";
+                        txt += "<tr>";
+                        txt += "<th>stdName</th>";
+                        txt += "<th>stdNumber</th>";
+                        txt += "<th>Final Score</th>";
+                        txt += "</tr>";
+                        for (let i in data){
+                            txt += "<tr>";
+                            txt += "<td>" + data[i].stdName + "</td>";
+                            txt += "<td>" + data[i].stdNumber + "</td>";
+                            let finalscore = 0;
+                            if(data[i].assign1 != 'null' && data[i].assign1 != null){
+                                finalscore += 0.15 * data[i].assign1;
+                            }
+                            if(data[i].assign2 != 'null' && data[i].assign2 != null){
+                                finalscore += 0.15 * data[i].assign2;
+                            }
+                            if(data[i].midterm != 'null' && data[i].midterm != null){
+                                finalscore += 0.2 * data[i].midterm;
+                            }
+                            if(data[i].exam != 'null' && data[i].exam != null){
+                                finalscore += 0.5 * data[i].exam;
+                            }
+                            txt += "<td>" + finalscore + "</td>";
+                            txt += "</tr>";
+                        }
+                        txt += "</table>";
+                        $("#show").html(txt);
+                    } else{
+                        $("#show").text(status);
+                    }
+                });
+            }
+
+        </script>
+    </body>
+</html>

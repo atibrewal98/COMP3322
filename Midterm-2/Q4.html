@@ -1,0 +1,83 @@
+<!DOCTYPE html5>
+<html>
+    <head>
+        <title>Shuffle Image</title>
+        <script src='jquery-3.3.1.js'></script>
+        <style>
+            #sbox {
+            width: 327px; height: 327px;
+            }
+            canvas { float: left; }
+        </style>
+    </head>
+    <body>
+        <div id="sbox">
+            <canvas id="c1" width="109" height="109"></canvas>
+            <canvas id="c2" width="109" height="109"></canvas>
+            <canvas id="c3" width="109" height="109"></canvas>
+            <canvas id="c4" width="109" height="109"></canvas>
+            <canvas id="c5" width="109" height="109"></canvas>
+            <canvas id="c6" width="109" height="109"></canvas>
+            <canvas id="c7" width="109" height="109"></canvas>
+            <canvas id="c8" width="109" height="109"></canvas>
+            <canvas id="c9" width="109" height="109"></canvas>
+        </div>
+        <script>
+            //This function returns a number between 0 to limit-1 and the returned
+            //number should not be equal to the first parameter (index).
+            function randomLoc(index, limit) {
+                do {
+                    var r = Math.floor(Math.random()*Math.floor(limit));
+                } while (r == index);
+
+                return r;
+            }
+            draw();
+            //Implement the draw() function
+            //Split the image into 9 pieces and draw each piece on individual canvas.
+            function draw() {
+                image = new Image();
+                image.onload = function(){
+                    var imagePieces = [];
+                    widthOfOnePiece = image.width/3;
+                    heightOfOnePiece = image.height/3;
+                    for(var x = 0; x < 3; ++x) {
+                        for(var y = 0; y < 3; ++y) {
+                            var z = (x+1) + 3 * (y);
+                            var canvas = document.getElementById('c'+z.toString())
+                            var context = canvas.getContext('2d');
+                            context.drawImage(image, x * widthOfOnePiece, y * heightOfOnePiece, widthOfOnePiece, heightOfOnePiece, 0, 0, canvas.width, canvas.height);
+                        }
+                    }
+                }
+                image.src = 'cat.jpg';
+            }
+
+            $("canvas").on("click", function (){
+                var id1 = this.id[1];
+
+                var id2 = randomLoc(id1, 9) + 1;
+
+                var c1 = (id1 - 1) % 3;
+                var r1 = (id1 - 1 - c1) / 3;
+
+                console.log(id1, r1, c1);
+
+                var c2 = (id2 - 1) % 3;
+                var r2 = (id2 - 1 -c2) / 3;
+
+
+                console.log(id2, r2, c2);
+
+                var canvas1 = document.getElementById("c"+id1);
+                var context1 = canvas1.getContext('2d');
+                var canvas2 = document.getElementById("c"+id2);
+                var context2 = canvas2.getContext('2d');
+
+                context1.drawImage(image, c2 * widthOfOnePiece, r2 * heightOfOnePiece, widthOfOnePiece, heightOfOnePiece, 0, 0, canvas2.width, canvas2.height);
+                context2.drawImage(image, c1 * widthOfOnePiece, r1 * heightOfOnePiece, widthOfOnePiece, heightOfOnePiece, 0, 0, canvas1.width, canvas1.height);
+            });
+
+        </script>
+    </body>
+</html>
