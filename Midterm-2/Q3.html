@@ -26,6 +26,7 @@
                         txt += "<th>stdNumber</th>";
                         txt += "<th>Final Score</th>";
                         txt += "</tr>";
+                        data = JSON.parse(data);
                         for (let i in data){
                             txt += "<tr>";
                             txt += "<td>" + data[i].stdName + "</td>";

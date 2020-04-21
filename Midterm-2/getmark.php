@@ -1,5 +1,5 @@
 <?php 
-    $conn = mysqli_connect('sophia.cs.hku.hk', 'c1111a', 'sudoku', 'c1111a') or  http_response_code(405);;
+    $conn = mysqli_connect('sophia.cs.hku.hk', 'tibrewal', 'KLIipPTB', 'tibrewal') or  http_response_code(405);
 
     $query = 'select stdName, stdNumber, assign1, assign2, midterm, exam from gradebook';
     $result = mysqli_query($conn, $query) or http_response_code(405);
