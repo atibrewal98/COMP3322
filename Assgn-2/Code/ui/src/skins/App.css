@@ -1,0 +1,154 @@
+html, body{
+  background: #085078;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #85D8CE, #085078);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #85D8CE, #085078); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-repeat: no-repeat;
+  font-family: 'Montserrat', sans-serif;
+  scroll-behavior: smooth;
+  min-height: 100%;
+}
+
+.whitebox{
+  background-color: aliceblue;
+  max-width: 600px;
+  margin: 0 auto;
+  color: #02AAB0;
+  padding-top: 2px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  border-radius: 5px;
+  -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0,0.5);
+  -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+}
+
+.lightbox{
+  background-color: #02AAB0;
+  text-align: center;
+  color: aliceblue;
+  padding: 2px 15px;
+  border-radius: 5px;
+  -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0,0.5);
+  -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+}
+
+.hg{
+  color: aliceblue;
+  text-align: center;
+}
+
+.formC{
+  padding: 10px;
+}
+
+.btn{
+  align-items: center;
+  color: aliceblue;
+  background-color: #02AAB0;
+  padding: 8px 20px;
+  border-radius: 5px;
+  border: 0px;
+  font-size: medium;
+  min-width: 100px;
+}
+
+.center{
+  text-align: center;
+  margin-top: 20px;
+}
+
+.hright{
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.hleft{
+  text-align: left;
+}
+
+.mb10{
+  margin-bottom: 10px;
+}
+
+.mb20{
+  margin-bottom: 20px;
+}
+
+.ml20{
+  margin-left: 20px;
+}
+
+table {
+  margin-top: 40px;
+  border-collapse: collapse;
+  width: 100%;
+  -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0,0.5);
+  -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+}
+
+td {
+  text-align: left;
+  padding: 8px;
+  border: 1px solid #02AAB0;
+  border-radius: 2px;
+}
+
+th {
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #02AAB0;
+  background-color: aliceblue;
+  color: #02AAB0;
+  border-radius: 2px;
+}
+
+tr{
+  color: aliceblue;
+}
+
+tr:nth-child(even){
+  background-color: aliceblue;
+  color: #02AAB0;
+}
+
+tr:hover{
+  cursor: pointer;
+}
+
+input{
+  height: 20px;
+  width: 250px;
+  border-radius: 2px;
+}
+
+.left {
+  float: left;
+  width: 35%;
+}
+
+.right {
+  float: left;
+  text-align: left;
+  width: 60%;
+}
+
+.formC:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.aR{
+  float: right;
+}
+
+
+@media screen and (max-width: 600px){
+  .left, .right{
+    width: 100%;
+    float: left;
+  }
+}
