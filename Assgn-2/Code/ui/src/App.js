@@ -23,15 +23,17 @@ class Main extends Component {
   componentDidMount(){
     var sid = Cookies.get('user');
     if(sid != null){
+      sid = JSON.parse(sid).sid;
       console.log("Here");
       this.setState({
         authorised: true,
         sid: sid
       });
+      this.getEvents(sid);
     } else {
       sid = '';
+      this.getEvents(sid);
     }
-    this.getEvents(sid);
   }
 
   getEvents(sid){

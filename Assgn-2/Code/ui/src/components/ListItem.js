@@ -8,12 +8,30 @@ class Item extends Component {
     render() {
         return (
             <div className="formC">
-                <div className="left">
-                    <label>{this.props.hg}:</label>
-                </div>
-                <div className="left">
-                    <label>{this.props.hgField}</label>
-                </div>
+                {
+                    this.props.creator
+                        ?
+                        <div>
+                            <div className="col">
+                                <label>{this.props.hg}:</label>
+                            </div>
+                            <div className="col">
+                                <label>{this.props.hgField}</label>
+                            </div>
+                            <div className="col">
+                                <button className="btnS aRight">Edit</button>
+                            </div>
+                        </div>
+                        :
+                        <div>
+                            <div className="left">
+                                <label>{this.props.hg}:</label>
+                            </div>
+                            <div className="right">
+                                <label>{this.props.hgField}</label>
+                            </div>
+                        </div>
+                }
             </div>
         );
     }

@@ -33,7 +33,7 @@ router.post('/register', function(req, res, next) {
       });
     
       usr.save(function(err, result){
-        res.send((err == null) ? {msg: '', sid: result.sessionid, token: result.sessiontoken} : {msg: err});
+        res.send((err == null) ? {msg: '', sid: result.sessionid, token: result.sessiontoken, user: usr.userid} : {msg: err});
       });
     }
   });
@@ -57,7 +57,7 @@ router.post('/signin', function(req, res, next) {
       req.sessionStore.set(req.sessionID, req.session);
       req.users.findByIdAndUpdate(docs[0]._id, {sessionid: req.sessionID}, function(err, docs){
         console.log(docs);
-        res.send({msg: "", sid: docs.sessionid, token: docs.sessiontoken})
+        res.send({msg: "", sid: docs.sessionid, token: docs.sessiontoken, user: docs.userid})
       })
     }
   });

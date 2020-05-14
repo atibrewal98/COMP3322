@@ -41,7 +41,7 @@ class Login extends Component {
         password: this.state.password
       }, function(data, status){
         if(data.msg === ''){
-          Cookies.set('user', data.sid);
+          Cookies.set('user', {sid: data.sid, user: data.user});
           console.log(Cookies.get('user'));
           history.push({
             pathname: "/"

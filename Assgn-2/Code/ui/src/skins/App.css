@@ -52,6 +52,18 @@ html, body{
   border: 0px;
   font-size: medium;
   min-width: 100px;
+  max-height: 35px;
+}
+
+.btnS{
+  align-items: center;
+  color: aliceblue;
+  background-color: #02AAB0;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 0px;
+  font-size: medium;
+  max-height: 35px;
 }
 
 .center{
@@ -126,13 +138,18 @@ input{
 
 .left {
   float: left;
-  width: 35%;
+  width: 30%;
 }
 
 .right {
   float: left;
   text-align: left;
-  width: 60%;
+  width: 66%;
+}
+
+.col {
+  float: left;
+  width: 32%;
 }
 
 .formC:after {
@@ -143,12 +160,23 @@ input{
 
 .aR{
   float: right;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+}
+
+.aRight{
+  float: right;
+}
+
+.aL{
+  margin-block-start: 1em;
+  margin-block-end: 1em;
 }
 
 
-@media screen and (max-width: 600px){
+/* @media screen and (max-width: 600px){
   .left, .right{
     width: 100%;
     float: left;
   }
-}
+} */

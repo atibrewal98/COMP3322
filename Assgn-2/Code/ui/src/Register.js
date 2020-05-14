@@ -74,7 +74,7 @@ class Register extends Component {
       }, function(data, status){
           if(data.msg === ''){
             console.log('Added Successfully');
-            Cookies.set('user', data.sid);
+            Cookies.set('user', {sid: data.sid, user: data.user});
             console.log(Cookies.get('user'));
             history.push({
               pathname: "/"
