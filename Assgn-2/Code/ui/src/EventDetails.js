@@ -38,16 +38,19 @@ class EventDetails extends Component {
         if (this.props.location.event) {
             this.setState({
                 event: this.props.location.event
-            })
+            });
+
+            if (sid != null) {
+                this.setState({
+                    isCreator: this.props.location.event.createrid === JSON.parse(sid).user
+                });
+            }
         }
         if (sid != null) {
-            var user = JSON.parse(sid).user;
-            sid = JSON.parse(sid).sid;
-            console.log(sid);
             this.setState({
                 authorised: true,
-                sid: sid,
-                user: user
+                sid: JSON.parse(sid).sid,
+                user: JSON.parse(sid).user
             });
         }
     }
@@ -124,77 +127,56 @@ class EventDetails extends Component {
                             ?
                             <div>
                                 <h3>Event</h3>
-                                <Item hg="Title" hgField={this.state.event.title} creator={false} />
-                                <Item hg="Type" hgField={this.state.event.type} creator={false} />
-                                <Item hg="Start Time" hgField={this.state.event.starttime} creator={false} />
-                                <Item hg="End Time" hgField={this.state.event.endtime} creator={false} />
-                                <Item hg="Location" hgField={this.state.event.location} creator={false} />
-                                <Item hg="Description" hgField={this.state.event.description} creator={false} />
-                                <Item hg="Creater" hgField={this.state.event.creater} creator={false} />
                             </div>
                             :
                             this.state.event.createrid === this.state.user
                                 ?
                                 <div>
-                                    <div>
-                                        <div className="left">
-                                            <h3 className="aL">Event</h3>
-                                        </div>
-                                        <div className="right">
-                                            <button className="btn aR">Delete</button>
-                                        </div>
+                                    <div className="left">
+                                        <h3 className="aL">Event</h3>
                                     </div>
-                                    <div>
-                                        <Item hg="Title" hgField={this.state.event.title} creator={true} />
-                                        <Item hg="Type" hgField={this.state.event.type} creator={true} />
-                                        <Item hg="Start Time" hgField={this.state.event.starttime} creator={true} />
-                                        <Item hg="End Time" hgField={this.state.event.endtime} creator={true} />
-                                        <Item hg="Location" hgField={this.state.event.location} creator={true} />
-                                        <Item hg="Description" hgField={this.state.event.description} creator={true} />
-                                        <Item hg="Creater" hgField={this.state.event.creater} creator={true} />
-                                    </div>
-                                    <div className="center">
-                                        <button className="btn">Update</button>
+                                    <div className="right">
+                                        <button className="btn aR">Delete</button>
                                     </div>
                                 </div>
                                 :
                                 this.state.event.attenders.includes(this.state.user)
                                     ?
                                     <div>
-                                        <div>
-                                            <div className="left">
-                                                <h3 className="aL">Event</h3>
-                                            </div>
-                                            <div className="right">
-                                                <button className="btn aR">Leave</button>
-                                            </div>
+                                        <div className="left">
+                                            <h3 className="aL">Event</h3>
                                         </div>
-                                        <Item hg="Title" hgField={this.state.event.title} creator={false} />
-                                        <Item hg="Type" hgField={this.state.event.type} creator={false} />
-                                        <Item hg="Start Time" hgField={this.state.event.starttime} creator={false} />
-                                        <Item hg="End Time" hgField={this.state.event.endtime} creator={false} />
-                                        <Item hg="Location" hgField={this.state.event.location} creator={false} />
-                                        <Item hg="Description" hgField={this.state.event.description} creator={false} />
-                                        <Item hg="Creater" hgField={this.state.event.creater} creator={false} />
+                                        <div className="right">
+                                            <button className="btn aR">Leave</button>
+                                        </div>
                                     </div>
                                     :
                                     <div>
-                                        <div>
-                                            <div className="left">
-                                                <h3 className="aL">Event</h3>
-                                            </div>
-                                            <div className="right">
-                                                <button className="btn aR">Join</button>
-                                            </div>
+                                        <div className="left">
+                                            <h3 className="aL">Event</h3>
                                         </div>
-                                        <Item hg="Title" hgField={this.state.event.title} creator={false} />
-                                        <Item hg="Type" hgField={this.state.event.type} creator={false} />
-                                        <Item hg="Start Time" hgField={this.state.event.starttime} creator={false} />
-                                        <Item hg="End Time" hgField={this.state.event.endtime} creator={false} />
-                                        <Item hg="Location" hgField={this.state.event.location} creator={false} />
-                                        <Item hg="Description" hgField={this.state.event.description} creator={false} />
-                                        <Item hg="Creater" hgField={this.state.event.creater} creator={false} />
+                                        <div className="right">
+                                            <button className="btn aR">Join</button>
+                                        </div>
                                     </div>
+                    }
+
+                    <Item hg="Title" hgField={this.state.event.title} creator={this.state.isCreator} />
+                    <Item hg="Type" hgField={this.state.event.type} creator={this.state.isCreator} />
+                    <Item hg="Start Time" hgField={this.state.event.starttime} creator={this.state.isCreator} />
+                    <Item hg="End Time" hgField={this.state.event.endtime} creator={this.state.isCreator} />
+                    <Item hg="Location" hgField={this.state.event.location} creator={this.state.isCreator} />
+                    <Item hg="Description" hgField={this.state.event.description} creator={this.state.isCreator} />
+                    <Item hg="Creater" hgField={this.state.event.creater} creator={this.state.isCreator} />
+                    
+                    {
+                        this.state.isCreator
+                            ?
+                            <div className="center">
+                                <button className="btn">Update</button>
+                            </div>
+                            :
+                            <div></div>
                     }
                 </div>
             </div>

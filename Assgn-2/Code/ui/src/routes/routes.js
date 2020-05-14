@@ -3,7 +3,8 @@ import { Router, Switch, Route } from "react-router-dom";
 import Main from "../App";
 import Login from '../Login';
 import Register from '../Register';
-import EventDetails from '../EventDetails'
+import EventDetails from '../EventDetails';
+import EventAdd from '../EventAdd';
 import history from './history';
 
 export default class Routes extends Component {
@@ -15,6 +16,7 @@ export default class Routes extends Component {
                     <Route path="/Register" component={Register} />
                     <Route path="/Login" component={Login} />
                     <Route path ="/EventD" component={EventDetails} />
+                    <Route path ="/EventA" component={EventAdd} />
                 </Switch>
             </Router>
         )

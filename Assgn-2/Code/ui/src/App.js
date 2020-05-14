@@ -18,21 +18,21 @@ class Main extends Component {
     this.getEvents = this.getEvents.bind(this);
     this.getPastEvents = this.getPastEvents.bind(this);
     this.getCurrentEvents = this.getCurrentEvents.bind(this);
+    this.addEvent = this.addEvent.bind(this);
   }
 
   componentDidMount(){
     var sid = Cookies.get('user');
     if(sid != null){
-      sid = JSON.parse(sid).sid;
       console.log("Here");
       this.setState({
         authorised: true,
-        sid: sid
+        sid: JSON.parse(sid).sid
       });
-      this.getEvents(sid);
+      this.getEvents(JSON.parse(sid).sid);
     } else {
       sid = '';
-      this.getEvents(sid);
+      this.getEvents('');
     }
   }
 
@@ -113,6 +113,14 @@ class Main extends Component {
     });
   }
 
+  addEvent(e){
+    e.preventDefault();
+
+    history.push({
+      pathname: "/EventA"
+    });
+  }
+
   logout(e){
     e.preventDefault();
 
@@ -160,7 +168,7 @@ class Main extends Component {
               <div className="hleft">
                 <button className="btn mb20 ml20" onClick={this.getCurrentEvents}>Current Event</button>
                 <button className="btn mb20 ml20" onClick={this.getPastEvents}>Past Event</button>
-                <button className="btn mb20 ml20" onClick={this.loginUser}>Add Event</button>
+                <button className="btn mb20 ml20" onClick={this.addEvent}>Add Event</button>
               </div>
           </div>
         }

@@ -29,24 +29,28 @@ class Register extends Component {
   }
 
   handleAliasChange(e){
+    e.preventDefault();
     this.setState({
       alias: e.target.value
     })
   }
 
   handleEmailChange(e){
+    e.preventDefault();
     this.setState({
       email: e.target.value
     })
   }
 
   handlePwdChange(e){
+    e.preventDefault();
     this.setState({
       password: e.target.value
     })
   }
 
   handleConfChange(e){
+    e.preventDefault();
     this.setState({
       confirmation: e.target.value
     })
@@ -104,6 +108,7 @@ class Register extends Component {
               <div className = "right">
                 <input
                   type="text"
+                  className="input"
                   value={this.state.name}
                   onChange={this.handleNameChange}
                 />
@@ -116,6 +121,7 @@ class Register extends Component {
               <div className = "right">
                 <input
                   type="text"
+                  className="input"
                   value={this.state.alias}
                   onChange={this.handleAliasChange}
                 />
@@ -128,6 +134,7 @@ class Register extends Component {
               <div className = "right">
                 <input
                   type="text"
+                  className="input"
                   value={this.state.email}
                   onChange={this.handleEmailChange}
                 />
@@ -140,6 +147,7 @@ class Register extends Component {
               <div className = "right">
                 <input
                   type="password"
+                  className="input"
                   value={this.state.password}
                   onChange={this.handlePwdChange}
                 />
@@ -152,6 +160,7 @@ class Register extends Component {
               <div className = "right">
                 <input
                   type="password"
+                  className="input"
                   value={this.state.confirmation}
                   onChange={this.handleConfChange}
                 /> 

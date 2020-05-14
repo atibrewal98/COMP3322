@@ -86,6 +86,49 @@ router.get('/events', function(req, res, next) {
   }
 });
 
+
+router.post('/events', function(req, res, next) {
+  res.set({ "Access-Control-Allow-Origin": "http://localhost:3000" });
+
+  var sid = req.headers.authorization;
+  var val = req.body;
+  var count = 0;
+
+  req.events.find({}, function(err, docs){
+    count = docs.length + 1;
+  });
+
+  if(sid){
+    req.sessionStore.get(sid, function(err, data){
+      if(data){
+        req.users.find({userid: data.userid}, function(err, docs){
+          var event = new req.events({
+            eventid:      "eventid" + count,
+            title:        val.title,
+            type:         val.type,
+            starttime:    val.starttime,
+            endtime:      val.endtime,
+            location:     val.location,
+            description:  val.description,
+            createrid:    docs[0].userid,
+            creater:      docs[0].acctname,
+            attenders:    [docs[0].userid]
+          });
+
+          console.log("Event:", event);
+
+          event.save(function(err, result){
+            res.send((err == null) ? {msg: ''} : {msg: err});
+          });
+        })
+      }
+    });
+  } else {
+    res.send({msg: 'Error'});
+  }
+});
+
+
 router.get('/pastevents', function(req, res, next) {
   res.set({ "Access-Control-Allow-Origin": "http://localhost:3000" });
 

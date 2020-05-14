@@ -130,7 +130,7 @@ tr:hover{
   cursor: pointer;
 }
 
-input{
+.input{
   height: 20px;
   width: 250px;
   border-radius: 2px;
@@ -171,6 +171,10 @@ input{
 .aL{
   margin-block-start: 1em;
   margin-block-end: 1em;
+}
+
+.ml50{
+  margin-left: 50px;
 }
 
 
