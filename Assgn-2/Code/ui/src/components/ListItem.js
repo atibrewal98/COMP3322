@@ -4,10 +4,12 @@ class Item extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dispText: false
+            dispText: false,
+            textbox: ''
         }
 
         this.toggleDisp = this.toggleDisp.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
     }
 
     toggleDisp(e){
@@ -22,6 +24,14 @@ class Item extends Component {
                 dispText: true
             })
         }
+    }
+
+    handleEdit(e){
+        e.preventDefault();
+        this.props.handleEdit(e, this.props.hg);
+        this.setState({
+            textbox: e.target.value
+        });
     }
 
     render() {
@@ -40,8 +50,8 @@ class Item extends Component {
                                     <input
                                         type="text"
                                         className="input"
-                                        value={this.props.hgField}
-                                        // onChange={this.handlePwdChange}
+                                        value={this.state.textbox === '' ? this.props.hgField : this.state.textbox}
+                                        onChange={this.handleEdit}
                                     />
                                 </div>
                                 <div className="col">
@@ -54,7 +64,7 @@ class Item extends Component {
                                     <label>{this.props.hg}:</label>
                                 </div>
                                 <div className="col">
-                                    <label>{this.props.hgField}</label>
+                                    <label>{this.state.textbox === '' ? this.props.hgField : this.state.textbox}</label>
                                 </div>
                                 <div className="col">
                                     <button className="btnS aRight" onClick = {this.toggleDisp}>Edit</button>
@@ -66,7 +76,7 @@ class Item extends Component {
                                 <label>{this.props.hg}:</label>
                             </div>
                             <div className="right">
-                                <label>{this.props.hgField}</label>
+                                <label>{this.state.textbox === '' ? this.props.hgField : this.state.textbox}</label>
                             </div>
                         </div>
                 }

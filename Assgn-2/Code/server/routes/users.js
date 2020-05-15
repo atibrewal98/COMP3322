@@ -181,6 +181,30 @@ router.put('/events/:eventid/register', function (req, res, next) {
 });
 
 
+router.put('/events/:eventid', function (req, res, next) {
+  res.set({ "Access-Control-Allow-Origin": "http://localhost:3000" });
+
+  var sid = req.headers.authorization;
+  var event = req.params.eventid;
+  var body = req.body;
+  console.log(event);
+
+  if (sid) {
+    req.sessionStore.get(sid, function (err, data) {
+      if (data) {
+        req.events.find({ eventid: event }, function (err, docs) {
+          console.log(docs);
+          req.events.findByIdAndUpdate(docs[0]._id, {$set: {title: body.title, type: body.type, starttime: body.starttime, endtime: body.endtime, location: body.location, description: body.description}}, function (err, docs) {
+            console.log("DOCS", docs);
+            res.send((err == null) ? { msg: '' } : { msg: err });
+          });
+        });
+      }
+    });
+  }
+});
+
+
 router.get('/pastevents', function (req, res, next) {
   res.set({ "Access-Control-Allow-Origin": "http://localhost:3000" });
 

@@ -25,7 +25,13 @@ class EventDetails extends Component {
             authorised: false,
             sid: '',
             user: '',
-            isCreator: false
+            isCreator: false,
+            title: '',
+            type: '',
+            starttime: '',
+            endtime: '',
+            location: '',
+            description: ''
         }
 
         this.backMain = this.backMain.bind(this);
@@ -35,13 +41,21 @@ class EventDetails extends Component {
         this.deleteEvent = this.deleteEvent.bind(this);
         this.joinEvent = this.joinEvent.bind(this);
         this.leaveEvent = this.leaveEvent.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
+        this.updateEvent = this.updateEvent.bind(this);
     }
 
     componentDidMount() {
         var sid = Cookies.get('user');
         if (this.props.location.event) {
             this.setState({
-                event: this.props.location.event
+                event: this.props.location.event,
+                title: this.props.location.event.title,
+                type: this.props.location.event.type,
+                starttime: this.props.location.event.starttime,
+                endtime: this.props.location.event.endtime,
+                location: this.props.location.event.location,
+                description: this.props.location.event.description
             });
 
             if (sid != null) {
@@ -83,6 +97,36 @@ class EventDetails extends Component {
         });
     }
 
+    handleEdit(e, field){
+        e.preventDefault();
+        console.log(field, e.target.value);
+        if(field === "Title"){
+            this.setState({
+                title: e.target.value
+            });
+        } else if (field === "Type"){
+            this.setState({
+                type: e.target.value
+            });
+        } else if (field === "Start Time"){
+            this.setState({
+                starttime: e.target.value
+            });
+        } else if (field === "End Time"){
+            this.setState({
+                endtime: e.target.value
+            });
+        } else if (field === "Location"){
+            this.setState({
+                location: e.target.value
+            });
+        } else if (field === "Description"){
+            this.setState({
+                description: e.target.value
+            });
+        }
+    }
+
     logout(e) {
         e.preventDefault();
 
@@ -121,7 +165,7 @@ class EventDetails extends Component {
             },
             success: function (data) {
                 console.log(data);
-                if(data.msg == ''){
+                if(data.msg === ''){
                     history.push({
                         pathname: "/"
                     })
@@ -140,7 +184,6 @@ class EventDetails extends Component {
         $.ajax({
             type: 'PUT',
             url: "http://localhost:3001/users/events/"+this.state.event.eventid+"/register",
-            data: this.state.event.eventid,
             dataType: 'json',
             data: {
                 status: 'join'
@@ -151,7 +194,41 @@ class EventDetails extends Component {
             },
             success: function (data) {
                 console.log(data);
-                if(data.msg == ''){
+                if(data.msg === ''){
+                    history.push({
+                        pathname: "/"
+                    })
+                }
+            }.bind(this),
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    }
+
+    updateEvent(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'PUT',
+            url: "http://localhost:3001/users/events/"+this.state.event.eventid,
+            dataType: 'json',
+            data: {
+                title: this.state.title,
+                type: this.state.type,
+                starttime: this.state.starttime,
+                endtime: this.state.endtime,
+                location: this.state.location,
+                description: this.state.description
+            },
+            cache: false,
+            headers: {
+                Authorization: this.state.sid
+            },
+            success: function (data) {
+                console.log(data);
+                if(data.msg === ''){
                     history.push({
                         pathname: "/"
                     })
@@ -180,7 +257,7 @@ class EventDetails extends Component {
             },
             success: function (data) {
                 console.log(data);
-                if(data.msg == ''){
+                if(data.msg === ''){
                     history.push({
                         pathname: "/"
                     })
@@ -251,19 +328,19 @@ class EventDetails extends Component {
                                     </div>
                     }
 
-                    <Item hg="Title" hgField={this.state.event.title} creator={this.state.isCreator} />
-                    <Item hg="Type" hgField={this.state.event.type} creator={this.state.isCreator} />
-                    <Item hg="Start Time" hgField={this.state.event.starttime} creator={this.state.isCreator} />
-                    <Item hg="End Time" hgField={this.state.event.endtime} creator={this.state.isCreator} />
-                    <Item hg="Location" hgField={this.state.event.location} creator={this.state.isCreator} />
-                    <Item hg="Description" hgField={this.state.event.description} creator={this.state.isCreator} />
-                    <Item hg="Creater" hgField={this.state.event.creater} creator={this.state.isCreator} />
+                    <Item hg="Title" hgField={this.state.event.title} creator={this.state.isCreator}  handleEdit={this.handleEdit}/>
+                    <Item hg="Type" hgField={this.state.event.type} creator={this.state.isCreator} handleEdit={this.handleEdit}/>
+                    <Item hg="Start Time" hgField={this.state.event.starttime} creator={this.state.isCreator} handleEdit={this.handleEdit}/>
+                    <Item hg="End Time" hgField={this.state.event.endtime} creator={this.state.isCreator} handleEdit={this.handleEdit}/>
+                    <Item hg="Location" hgField={this.state.event.location} creator={this.state.isCreator} handleEdit={this.handleEdit}/>
+                    <Item hg="Description" hgField={this.state.event.description} creator={this.state.isCreator} handleEdit={this.handleEdit}/>
+                    <Item hg="Creater" hgField={this.state.event.creater} creator={this.state.isCreator} handleEdit={this.handleEdit}/>
 
                     {
                         this.state.isCreator
                             ?
                             <div className="center">
-                                <button className="btn">Update</button>
+                                <button className="btn" onClick = {this.updateEvent}>Update</button>
                             </div>
                             :
                             <div></div>
