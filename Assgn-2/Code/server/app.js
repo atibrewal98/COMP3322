@@ -63,7 +63,7 @@ app.use(session({
 //Setup CORS Middleware
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, contentType, Content-Type, Accept, Authorization");
   res.setHeader('Access-Control-Allow-Credentials', true);
   next();

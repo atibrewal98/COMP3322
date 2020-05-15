@@ -9,6 +9,7 @@ class EventDetails extends Component {
         super(props);
         this.state = {
             event: {
+                eventid: '',
                 type: '',
                 title: '',
                 starttime: '',
@@ -31,6 +32,9 @@ class EventDetails extends Component {
         this.registerUser = this.registerUser.bind(this);
         this.loginUser = this.loginUser.bind(this);
         this.logout = this.logout.bind(this);
+        this.deleteEvent = this.deleteEvent.bind(this);
+        this.joinEvent = this.joinEvent.bind(this);
+        this.leaveEvent = this.leaveEvent.bind(this);
     }
 
     componentDidMount() {
@@ -103,6 +107,92 @@ class EventDetails extends Component {
         });
     }
 
+    deleteEvent(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'DELETE',
+            url: "http://localhost:3001/users/events/"+this.state.event.eventid,
+            data: this.state.event.eventid,
+            dataType: 'json',
+            cache: false,
+            headers: {
+                Authorization: this.state.sid
+            },
+            success: function (data) {
+                console.log(data);
+                if(data.msg == ''){
+                    history.push({
+                        pathname: "/"
+                    })
+                }
+            }.bind(this),
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    }
+
+    joinEvent(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'PUT',
+            url: "http://localhost:3001/users/events/"+this.state.event.eventid+"/register",
+            data: this.state.event.eventid,
+            dataType: 'json',
+            data: {
+                status: 'join'
+            },
+            cache: false,
+            headers: {
+                Authorization: this.state.sid
+            },
+            success: function (data) {
+                console.log(data);
+                if(data.msg == ''){
+                    history.push({
+                        pathname: "/"
+                    })
+                }
+            }.bind(this),
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    }
+
+    leaveEvent(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'PUT',
+            url: "http://localhost:3001/users/events/"+this.state.event.eventid+"/register",
+            data: {
+                status: 'leave'
+            },
+            dataType: 'json',
+            cache: false,
+            headers: {
+                Authorization: this.state.sid
+            },
+            success: function (data) {
+                console.log(data);
+                if(data.msg == ''){
+                    history.push({
+                        pathname: "/"
+                    })
+                }
+            }.bind(this),
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    }
+
     render() {
         return (
             <div>
@@ -136,7 +226,7 @@ class EventDetails extends Component {
                                         <h3 className="aL">Event</h3>
                                     </div>
                                     <div className="right">
-                                        <button className="btn aR">Delete</button>
+                                        <button className="btn aR" onClick = {this.deleteEvent}>Delete</button>
                                     </div>
                                 </div>
                                 :
@@ -147,7 +237,7 @@ class EventDetails extends Component {
                                             <h3 className="aL">Event</h3>
                                         </div>
                                         <div className="right">
-                                            <button className="btn aR">Leave</button>
+                                            <button className="btn aR" onClick = {this.leaveEvent}>Leave</button>
                                         </div>
                                     </div>
                                     :
@@ -156,7 +246,7 @@ class EventDetails extends Component {
                                             <h3 className="aL">Event</h3>
                                         </div>
                                         <div className="right">
-                                            <button className="btn aR">Join</button>
+                                            <button className="btn aR" onClick = {this.joinEvent}>Join</button>
                                         </div>
                                     </div>
                     }
@@ -168,7 +258,7 @@ class EventDetails extends Component {
                     <Item hg="Location" hgField={this.state.event.location} creator={this.state.isCreator} />
                     <Item hg="Description" hgField={this.state.event.description} creator={this.state.isCreator} />
                     <Item hg="Creater" hgField={this.state.event.creater} creator={this.state.isCreator} />
-                    
+
                     {
                         this.state.isCreator
                             ?
