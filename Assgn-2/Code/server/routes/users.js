@@ -29,11 +29,11 @@ router.post('/register', function (req, res, next) {
         email: val.email,
         password: val.password,
         sessionid: req.sessionID,
-        sessiontoken: "s-token" + count
+        sessiontoken: JSON.stringify(req.session)
       });
 
       usr.save(function (err, result) {
-        res.send((err == null) ? { msg: '', sid: result.sessionid, token: result.sessiontoken, user: usr.userid } : { msg: err });
+        res.send((err == null) ? { msg: '', sid: result.sessionid, token: req.session, user: usr.userid } : { msg: err });
       });
     }
   });
@@ -55,9 +55,9 @@ router.post('/signin', function (req, res, next) {
       console.log("Session", req.session, req.sessionID, req.session.cookie);
 
       req.sessionStore.set(req.sessionID, req.session);
-      req.users.findByIdAndUpdate(docs[0]._id, { sessionid: req.sessionID }, function (err, docs) {
+      req.users.findByIdAndUpdate(docs[0]._id, { sessionid: req.sessionID, sessiontoken: JSON.stringify(req.session) }, function (err, docs) {
         console.log(docs);
-        res.send({ msg: "", sid: docs.sessionid, token: docs.sessiontoken, user: docs.userid })
+        res.send({ msg: "", sid: docs.sessionid, token: req.session, user: docs.userid })
       })
     }
   });
@@ -163,14 +163,14 @@ router.put('/events/:eventid/register', function (req, res, next) {
           console.log(docs);
           var att = docs[0].attenders;
           const index = att.indexOf(data.userid);
-          if(req.body.status == 'join' && index == -1)
+          if (req.body.status == 'join' && index == -1)
             att.push(data.userid);
-          else if(req.body.status == 'leave' && index > -1)
+          else if (req.body.status == 'leave' && index > -1)
             att.splice(index, 1);
           else
-            res.send({msg: 'Invalid Request'});
+            res.send({ msg: 'Invalid Request' });
           console.log(att);
-          req.events.findByIdAndUpdate(docs[0]._id, {$set: {attenders: att}}, function (err, docs) {
+          req.events.findByIdAndUpdate(docs[0]._id, { $set: { attenders: att } }, function (err, docs) {
             console.log("DOCS", docs.attenders);
             res.send((err == null) ? { msg: '' } : { msg: err });
           });
@@ -194,7 +194,7 @@ router.put('/events/:eventid', function (req, res, next) {
       if (data) {
         req.events.find({ eventid: event }, function (err, docs) {
           console.log(docs);
-          req.events.findByIdAndUpdate(docs[0]._id, {$set: {title: body.title, type: body.type, starttime: body.starttime, endtime: body.endtime, location: body.location, description: body.description}}, function (err, docs) {
+          req.events.findByIdAndUpdate(docs[0]._id, { $set: { title: body.title, type: body.type, starttime: body.starttime, endtime: body.endtime, location: body.location, description: body.description } }, function (err, docs) {
             console.log("DOCS", docs);
             res.send((err == null) ? { msg: '' } : { msg: err });
           });
@@ -237,15 +237,28 @@ router.get('/signout', function (req, res, next) {
   res.set({ "Access-Control-Allow-Origin": "http://localhost:3000" });
 
   var sid = req.headers.authorization;
+  var usr = '';
 
   if (sid) {
-    req.sessionStore.destroy(sid, function (err) {
-      if (err)
-        console.log(err);
+    req.sessionStore.get(sid, function (err, data) {
+      if (data) {
+        usr = data.userid;
+        console.log(usr);
+        req.sessionStore.destroy(sid, function (err) {
+          if (err)
+            res.send({msg: "err"});
+          req.users.find({ userid: usr }, function (err, docs) {
+            console.log(docs);
+            req.users.findByIdAndUpdate(docs[0]._id, { $set: { sessionid: '', sessiontoken: '' } }, function (err, docs) {
+              res.send({ msg: "Logout Successful" });
+            });
+          });
+        })
+      } else {
+        res.send({ msg: "Logout Successful" });
+      }
     })
   }
-
-  res.send({ msg: "Logout Successful" });
 });
 
 module.exports = router;

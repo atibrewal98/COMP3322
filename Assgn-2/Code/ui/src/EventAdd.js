@@ -8,7 +8,7 @@ class EventAdd extends Component {
         super(props);
         this.state = {
             title: '',
-            type: '',
+            type: 'public',
             starttime: '',
             endtime: '',
             location: '',
@@ -92,7 +92,9 @@ class EventAdd extends Component {
 
         if (this.state.title === '' || this.state.type === '' || this.state.starttime === '' || this.state.endtime === '' || this.state.location === '' || this.state.description === "") {
             window.alert("Check all values filled");
-        } else {
+        } else if(this.state.starttime > this.state.endtime){
+            window.alert("End time should be later than Start time");
+        } else{
             $.ajax({
                 type: 'POST',
                 url: "http://localhost:3001/users/events",

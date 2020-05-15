@@ -55,7 +55,7 @@ class Item extends Component {
                                     />
                                 </div>
                                 <div className="col">
-                                    <button className="btnS aRight" onClick = {this.toggleDisp}>Edit</button>
+                                    <button className="btnS aRight" onClick = {this.toggleDisp}>Save</button>
                                 </div>
                             </div>
                             :

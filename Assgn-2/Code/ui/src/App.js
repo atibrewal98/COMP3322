@@ -135,9 +135,13 @@ class Main extends Component {
         Authorization: this.state.sid
       },
       success: function (data) {
-        this.setState({ authorised: false});
-        this.getEvents('');
-        console.log(this.state);
+        if(data.msg == "Logout Successful"){
+          this.setState({ authorised: false});
+          this.getEvents('');
+          console.log(this.state);
+        }
+        else
+          window.alert(data.msg);
       }.bind(this),
       error: function (xhr, ajaxOptions, thrownError) {
         alert(xhr.status);

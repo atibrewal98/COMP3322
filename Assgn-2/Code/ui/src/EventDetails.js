@@ -210,35 +210,43 @@ class EventDetails extends Component {
     updateEvent(e){
         e.preventDefault();
 
-        $.ajax({
-            type: 'PUT',
-            url: "http://localhost:3001/users/events/"+this.state.event.eventid,
-            dataType: 'json',
-            data: {
-                title: this.state.title,
-                type: this.state.type,
-                starttime: this.state.starttime,
-                endtime: this.state.endtime,
-                location: this.state.location,
-                description: this.state.description
-            },
-            cache: false,
-            headers: {
-                Authorization: this.state.sid
-            },
-            success: function (data) {
-                console.log(data);
-                if(data.msg === ''){
-                    history.push({
-                        pathname: "/"
-                    })
+        console.log(this.state.starttime > this.state.endtime)
+
+        if(this.state.type !== "public" && this.state.type !== "private"){
+            window.alert("Incorrect Event Type");
+        } else if(this.state.starttime > this.state.endtime) {
+            window.alert("End time should be later than Start time");
+        } else {
+            $.ajax({
+                type: 'PUT',
+                url: "http://localhost:3001/users/events/"+this.state.event.eventid,
+                dataType: 'json',
+                data: {
+                    title: this.state.title,
+                    type: this.state.type,
+                    starttime: this.state.starttime,
+                    endtime: this.state.endtime,
+                    location: this.state.location,
+                    description: this.state.description
+                },
+                cache: false,
+                headers: {
+                    Authorization: this.state.sid
+                },
+                success: function (data) {
+                    console.log(data);
+                    if(data.msg === ''){
+                        history.push({
+                            pathname: "/"
+                        })
+                    }
+                }.bind(this),
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
                 }
-            }.bind(this),
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
-            }
-        });
+            });
+        }
     }
 
     leaveEvent(e){
