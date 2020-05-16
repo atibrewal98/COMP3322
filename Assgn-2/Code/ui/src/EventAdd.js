@@ -116,6 +116,12 @@ class EventAdd extends Component {
                         history.push({
                             pathname: "/"
                         })
+                    } else if (data.msg === 'Invalid Token') {
+                        window.alert(data.msg);
+                        Cookies.remove('user');
+                        history.push({
+                            pathname: "/"
+                        })
                     } else {
                         window.alert(data.msg);
                     }

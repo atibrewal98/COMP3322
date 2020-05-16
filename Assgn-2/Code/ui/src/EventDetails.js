@@ -169,6 +169,14 @@ class EventDetails extends Component {
                     history.push({
                         pathname: "/"
                     })
+                } else {
+                    window.alert(data.msg);
+                    this.setState({
+                        authorised: false,
+                        user: '',
+                        isCreator: false
+                    })
+                    Cookies.remove('user');
                 }
             }.bind(this),
             error: function (xhr, ajaxOptions, thrownError) {
@@ -198,6 +206,14 @@ class EventDetails extends Component {
                     history.push({
                         pathname: "/"
                     })
+                } else {
+                    window.alert(data.msg);
+                    this.setState({
+                        authorised: false,
+                        user: '',
+                        isCreator: false
+                    })
+                    Cookies.remove('user');
                 }
             }.bind(this),
             error: function (xhr, ajaxOptions, thrownError) {
@@ -209,8 +225,6 @@ class EventDetails extends Component {
 
     updateEvent(e){
         e.preventDefault();
-
-        console.log(this.state.starttime > this.state.endtime)
 
         if(this.state.type !== "public" && this.state.type !== "private"){
             window.alert("Incorrect Event Type");
@@ -239,6 +253,14 @@ class EventDetails extends Component {
                         history.push({
                             pathname: "/"
                         })
+                    } else {
+                        window.alert(data.msg);
+                        this.setState({
+                            authorised: false,
+                            user: '',
+                            isCreator: false
+                        })
+                        Cookies.remove('user');
                     }
                 }.bind(this),
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -269,6 +291,14 @@ class EventDetails extends Component {
                     history.push({
                         pathname: "/"
                     })
+                } else {
+                    window.alert(data.msg);
+                    this.setState({
+                        authorised: false,
+                        user: '',
+                        isCreator: false
+                    })
+                    Cookies.remove('user');
                 }
             }.bind(this),
             error: function (xhr, ajaxOptions, thrownError) {

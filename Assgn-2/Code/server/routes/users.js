@@ -54,10 +54,15 @@ router.post('/signin', function (req, res, next) {
       req.session.save();
       console.log("Session", req.session, req.sessionID, req.session.cookie);
 
-      req.sessionStore.set(req.sessionID, req.session);
-      req.users.findByIdAndUpdate(docs[0]._id, { sessionid: req.sessionID, sessiontoken: JSON.stringify(req.session) }, function (err, docs) {
-        console.log(docs);
-        res.send({ msg: "", sid: req.sessionID, token: req.session, user: docs.userid })
+      req.sessionStore.destroy(docs[0].sessionid, function (err) {
+        if (err)
+          console.log(err);
+
+        req.sessionStore.set(req.sessionID, req.session);
+        req.users.findByIdAndUpdate(docs[0]._id, { sessionid: req.sessionID, sessiontoken: JSON.stringify(req.session) }, function (err, docs) {
+          console.log(docs);
+          res.send({ msg: "", sid: req.sessionID, token: req.session, user: docs.userid })
+        })
       })
     }
   });
@@ -77,6 +82,8 @@ router.get('/events', function (req, res, next) {
         req.events.find({ endtime: { $gt: cDate }, $or: [{ type: "public" }, { createrid: data.userid }] }, null, { sort: { starttime: 1 } }, function (err, docs) {
           res.send(docs);
         });
+      } else {
+        res.send({ msg: "Invalid Token" });
       }
     });
   } else {
@@ -121,6 +128,8 @@ router.post('/events', function (req, res, next) {
             res.send((err == null) ? { msg: '' } : { msg: err });
           });
         })
+      } else {
+        res.send({msg: 'Invalid Token'});
       }
     });
   } else {
@@ -143,6 +152,8 @@ router.delete('/events/:eventid', function (req, res, next) {
           console.log("DOCS", docs._id);
           res.send((err == null) ? { msg: '' } : { msg: err });
         });
+      } else {
+        res.send({msg: 'Invalid Token'});
       }
     });
   }
@@ -175,6 +186,8 @@ router.put('/events/:eventid/register', function (req, res, next) {
             res.send((err == null) ? { msg: '' } : { msg: err });
           });
         });
+      } else {
+        res.send({msg: 'Invalid Token'});
       }
     });
   }
@@ -199,6 +212,8 @@ router.put('/events/:eventid', function (req, res, next) {
             res.send((err == null) ? { msg: '' } : { msg: err });
           });
         });
+      } else {
+        res.send({msg: 'Invalid Token'});
       }
     });
   }
@@ -226,6 +241,8 @@ router.get('/pastevents', function (req, res, next) {
         req.events.find({ $and: [{ endtime: { $lt: cDate } }, { endtime: { $gt: fDate } }], $or: [{ type: "public" }, { createrid: data.userid }] }, null, { sort: { starttime: -1 } }, function (err, docs) {
           res.send(docs);
         });
+      } else {
+        res.send({msg: 'Invalid Token'});
       }
     });
   } else {
@@ -246,7 +263,7 @@ router.get('/signout', function (req, res, next) {
         console.log(usr);
         req.sessionStore.destroy(sid, function (err) {
           if (err)
-            res.send({msg: "err"});
+            res.send({ msg: "err" });
           req.users.find({ userid: usr }, function (err, docs) {
             console.log(docs);
             req.users.findByIdAndUpdate(docs[0]._id, { $set: { sessionid: '', sessiontoken: '' } }, function (err, docs) {

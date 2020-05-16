@@ -46,7 +46,15 @@ class Main extends Component {
         Authorization: sid
       },
       success: function (data) {
-        this.setState({ events: data });
+        if(data.msg){
+          this.setState({
+            authorised: false,
+            events: []
+          })
+          Cookies.remove('user');
+        } else{
+          this.setState({ events: data });
+        }
       }.bind(this),
       error: function (xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
@@ -67,7 +75,16 @@ class Main extends Component {
         Authorization: sid
       },
       success: function (data) {
-        this.setState({ events: data });
+        if(data.msg){
+          this.setState({
+            authorised: false,
+            events: []
+          })
+          Cookies.remove('user');
+          this.getEvents('');
+        } else{
+          this.setState({ events: data });
+        }
       }.bind(this),
       error: function (xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
@@ -88,7 +105,16 @@ class Main extends Component {
         Authorization: sid
       },
       success: function (data) {
-        this.setState({ events: data });
+        if(data.msg){
+          this.setState({
+            authorised: false,
+            events: []
+          })
+          Cookies.remove('user');
+          this.getEvents('');
+        } else{
+          this.setState({ events: data });
+        }
       }.bind(this),
       error: function (xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
@@ -135,7 +161,7 @@ class Main extends Component {
         Authorization: this.state.sid
       },
       success: function (data) {
-        if(data.msg == "Logout Successful"){
+        if(data.msg === "Logout Successful"){
           this.setState({ authorised: false});
           this.getEvents('');
           console.log(this.state);
